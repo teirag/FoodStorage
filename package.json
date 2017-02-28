@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/teirag/FoodStorage/issues"
   },
-  "homepage": "https://github.com/teirag/FoodStorage#readme"
+  "homepage": "https://github.com/teirag/FoodStorage#readme",
+  "dependencies": {
+    "express": "^4.14.1"
+  }
 }
