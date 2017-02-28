@@ -11,7 +11,7 @@ app.use(express.static('./www'));
 })*/
 
 app.post('/', function(req, res) {
-	res.send('POST: ' + req.body);
+	res.json(req.body);
 });
 
 app.listen(3000, function () {
