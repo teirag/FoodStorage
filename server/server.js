@@ -4,9 +4,11 @@ var app = express();
 
 app.use(bodyParser.json());
 
-app.get('/', function (req, res) {
+app.use(express.static('./www'));
+
+/*app.get('/', function (req, res) {
   res.send('Hello World!')
-})
+})*/
 
 app.post('/', function(req, res) {
 	res.send('POST: ' + req.body);
