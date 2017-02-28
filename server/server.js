@@ -9,7 +9,7 @@ app.get('/', function (req, res) {
 })
 
 app.post('/', function(req, res) {
-	res.send('POST: ' + req.body);
+	res.json(req.body);
 });
 
 app.listen(3000, function () {
