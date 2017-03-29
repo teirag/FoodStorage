@@ -2,69 +2,26 @@
 <html>
 <head>
 	<title>Family Storehouse</title>
-	<style type="text/css">
-		#login {
-			display:none;
-		}
-		#sign_up {
-			display:none;
-		}
-		#body{
-			background-color: #E4E4E4;
-		}
-		#login-container{
-			margin-right: auto;
-			margin-left: auto;
-			width: 350px;
-			height: 350px;
-			background-color: white;
-			border: solid 4px black;
-			display:flex;
-			justify-content: center;
-			align-items:center;
-		}
-		#login-content{
-			margin-right: auto;
-			margin-left: auto;
-			width: 200px;
-			
-		}
-		.img-thumbnail{
-			height:250px;
-			width:250px;
-		}
-		#img1{
-			margin-right: auto;
-			margin-left: 50px;
-		}
-		.froggy{
-			display:flex;
-			justify-content: space-between;
-		}
-		
-
-
+	<style>
 	</style>
 	
-	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap-theme.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+	<script src="/js/main.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<script src="bootstrap/js/bootstrap.js"></script>
+	<script src="css/bootstrap/js/bootstrap.js"></script>
 
 </head>
-<body id="body">
-	    <form class="accordion-inner" action="/family" method="GET">
-			<h3>Sign Up</h3>
-			<label>Username</label><br>
-				<input id="s_username" class="field" type="text" name="username"><br>
-            <label>Email</label><br>
-				<input id="s_email" class="field" type="email" name="email"><br>
-			<label>Password</label><br>
-				<input id="s_password" class="field" type="password" name="password"><br>
-			<label>Confirm Password</label><br>
-				<input id="confirm" class="field" type="password" name="confirm" onkeypress="confirm_pass()"><br>
-			<button type="submit">Submit</button>
-		</form>
+<body id="body" class="row">
+        <div class="col-md-3" id="sidebar">
+            <div class="nav-item col-md-12" onclick="route('/storage')"><h1 class="text-center">Storage</h1></div>    
+            <div class="nav-item col-md-12" onclick="route('/family')"><h1 class="text-center">Family</h1></div>    
+            <div class="nav-item col-md-12" onclick="route('/recipes')"><h1 class="text-center">Recipes</h1></div>    
+            <div class="nav-item col-md-12" onclick="route('/budgets')"><h1 class="text-center">Budgets</h1></div>    
+        </div>
+        <div class="col-md-9" id="mainpage">
+            <div></div>
+        </div>
     
     
 </body>

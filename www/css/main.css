@@ -1,20 +1,15 @@
-body{
-    margin-left: auto;
-    margin-right: auto;
-    width: 900px;
-    background-color: grey;
+#sidebar{
+    background-color: darkorange;
+    height: 1000px;
 }
-#main{
-    background-color: white;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border-radius: 10px;
+#mainpage{
+    background-color: skyblue;
+    height: 1000px;
 }
-
-.text-center{
-    text-align: center;
-}
-#form{
-    padding-left: 20px;
-    padding-right: 20px;
+.nav-item{
+    height: 100px;
+    border: solid black 1px;
+    width: 105%;
+    user-select: none;
+    cursor: pointer;
 }
