@@ -1,10 +1,12 @@
-var MongoClient = require('mongodb').MongoClient;
+const MongoClient = require('mongodb').MongoClient;
 
-const dbName = foodStorage;
-module.exports = function(dbName) {
-    var url = 'mongodb://localhost:27017/' + dbName;
-    return MongoClient.connect(url);
-};
+const dbName = "foodStorage";
+const url = 'mongodb://localhost:27017/' + dbName;
+    //return MongoClient.connect(url);
+
+//returns a promise for a database connection
+module.exports =  MongoClient.connect(url);
+
 // we use promises for our insert/update/other functions with Mongo so that they either pass and go through if connected, or they fail and nothing bad happens
 
 

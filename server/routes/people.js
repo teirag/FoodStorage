@@ -8,7 +8,12 @@ router.post('/', function(req, res){
 });
 
 router.get('/', function(req, res){
-   res.json(people.getPeople()); 
+    people.getPeople()
+        .then(result => {
+            // format result for return http data
+            res.json(result);
+        })
+   res.json(people.getPeople()).then;
 });
 
 router.put('/:personId', function(req, res){

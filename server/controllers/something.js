@@ -1,16 +1,17 @@
-const dbPromise = require('../database')('foodStorage');
+// this is our example of basically the people.js controller we have, but using an actual database
+const dbPromise = require('../database');
 
-exports.addTask = function(title, description, dueDate){
+exports.addItem = function(title, description)
+{
     const o = {
         title: title,
-        description: description,
-        dueDate: dueDate
+        description: description
     };
     
     return dbPromise
         .then(db => {
           // Get the collection
           var col = db.collection('tasks');
-          return col.insertOne(task);
+          return col.insertOne(o);//returns a promise
         });
-};
+}; 

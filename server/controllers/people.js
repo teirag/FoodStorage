@@ -11,7 +11,7 @@ exports.addPerson = function(obj){
     const o = {id: id++};
     o.name = obj.name;
     o.age = obj.age;
-    store[o.id] = 0;
+    store[o.id] = 0;//asyncrhonous function to do database stuff and store in promise
     return o;
 };
 

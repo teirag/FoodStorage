@@ -1,6 +1,6 @@
 var express = require('express');
 //const bodyParser = require('body-parser');
-//const peopleRoutes = require('./routes/people');
+const peopleRoutes = require('./routes/people');
 var app = express();
 var path = require('path');
 
@@ -15,7 +15,7 @@ app.get('/storage', function (req, res) {
   res.send('Hello World!')
 });
 
-
+app.use('/api/people', peopleRoutes)
 
 
 
