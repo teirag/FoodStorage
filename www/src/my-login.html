@@ -16,8 +16,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="../bower_components/custom/storage-table.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 
-<dom-module id="my-view1">
+<dom-module id="my-login">
   <template>
     <style include="shared-styles">
       :host {
@@ -52,7 +53,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script>
     Polymer({
-      is: 'my-view1',
+      is: 'my-login',
 
       ready(){
         this.$.presubmit.addEventListener('iron-form-presubmit', function(event) {
