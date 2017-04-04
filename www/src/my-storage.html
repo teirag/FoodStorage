@@ -30,11 +30,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
     <div class="card">
+      <iron-ajax
+      auto
+      method="post"
+      url="/storage"
+      body="{{storageItem}}"
+      handle-as="json"
+      content-type="application/x-www-form-urlencoded"
+      last-response="{{response}}"></iron-ajax>
+      <p>{{response.name}} | {{response.type}}</p>
+      <!-- <template is="dom-repeat" items="{{response}}">
+        <div class="">
+          <a href="/storage">{{item.name}}</a>
+        </div>
+      </template> -->
       <div class="breakLine">
         <iron-label>
           <iron-icon icon="icons:add-circle-outline"></iron-icon> Backpack: add contents
         </iron-label>
       </div>
+      Name <input type="text" name="storageName" value="{{storageName::change}}">
+      Type <input type="text" name="storageType" value="{{storageType::change}}">
+      <br><br>
       <storage-table></storage-table>
 
     </div>
@@ -43,6 +60,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
     Polymer({
       is: 'my-storage',
+
+      properties: {
+        storageName: {
+          value: 'My-Storage',
+          notify: true
+        },
+        storageType: {
+          value: 'Pantry',
+          notify: true
+        },
+        size: "",
+        storageItem: {
+          computed: 'storeItems(storageName, storageType)'
+        }
+      },
+
+      storeItems: function(storageName, storageType){
+        return { name: storageName, type: storageType };
+      }
     });
   </script>
 </dom-module>
