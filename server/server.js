@@ -6,7 +6,7 @@ var LocalStrategy       = require('passport-local').Strategy;
 var passport            = require('passport');
 var session             = require('express-session');
 var path                = require('path');
-// const peopleRoutes = require('./routes/people');
+const loginRouter      = require('./routes/login');
 
 var app = express();
 const users = {};
@@ -16,11 +16,9 @@ const storage = {};
 passport.use('login', new LocalStrategy(function(username, password, done) {
     //done is a function that returns an error, then  the userobject
     if ((username && password) && !users[username]){
-      users[username] = {
-        'username': username,
-        'password': password,
-        pairs: {}
-      };
+
+      app.use('/login', loginRouter);
+      
       return done(null, { username: username, password: password, pairs: {} });
     }
     else {
@@ -80,7 +78,7 @@ app.post('/login', passport.authenticate('login'), function (req, res) {
     // res.send([{name: number},{name: "Mitch"},{name: "Bear"},{name: JSON.stringify(req.params)}]);
 });
 
-// app.use('/api/people', peopleRoutes)
+
 
 
 
