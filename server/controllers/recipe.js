@@ -11,7 +11,7 @@ exports.addItem = function(title, description)
     return dbPromise
         .then(db => {
           // Get the collection
-          var col = db.collection('tasks');
+          var col = db.collection('recipes');
           return col.insertOne(o);//returns a promise
         });
 }; 

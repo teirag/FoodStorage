@@ -1,6 +1,6 @@
 //just copied from recipe.js, still need to edit
 const express = require('express');
-const people = require('../controller/people');
+const people = require('../controller/recipe');
 const router = express.Router();
 
 router.post('/', function(req, res){
