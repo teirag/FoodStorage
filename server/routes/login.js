@@ -3,6 +3,43 @@ const express = require('express');
 const login = require('../controllers/login');
 const router = express.Router();
 
+passport.use('login', new LocalStrategy(function(username, password, done) {
+    //done is a function that returns an error, then  the userobject
+    if ((username && password) && !users[username]){
+      users[username] = {
+        'username':username,
+        'password':password,
+        keys: {}
+      };
+
+      return done(null, { username: username, password: password, pairs: {} });
+    }
+    else {
+      return done(null, users[username]);
+    }
+}));
+
+// tell passport how to turn a user into serialized data that will be stored with the session
+//user object is generated above
+passport.serializeUser(function(user, done) {
+    done(null, user.username);
+});
+
+// tell passport how to go from the serialized data back to the user
+passport.deserializeUser(function(key, done) {
+    done(null, users[key]);
+});
+
+router.post('/', passport.authenticate('login'), function (req, res) {
+    const user = req.user;
+    login.addPerson(user.username, user.password)
+        .then(dbResult => {
+            //whatever
+            res.status(200).send("You created an account");
+        })
+    // res.send([{name: number},{name: "Mitch"},{name: "Bear"},{name: JSON.stringify(req.params)}]);
+});
+
 router.post('/login', function(req, res) {
     const userStuff = login.addPerson(req.body);
     console.log(userStuff);

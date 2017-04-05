@@ -28,95 +28,86 @@ cron.schedule('1-59 * * * *', function(){
     
     //get each user, check to see if today is 1 month before any expiration dates, send email to their email if it is.
     
+    let unit = "Storage Cuboard";
+    let food = "chicken";
+    let site = "http://localhost:3000"
+    let to = 'sottochoro@gmail.com';
+    let from = '"ストーレジ 👻" <sottochoro@gmail.com>';
     
     var d = new Date(); //today's date
     var exp =  new Date() - 5;
     var dd = exp - d;
     var maxDistance = 30;
     
-    if(dd < maxDistance && dd > 0){
-        // create reusable transporter object using the default SMTP transport
-        let transporter = nodemailer.createTransport(smtpTransport({
-            service: 'gmail',
-            auth: {
-                user: 'sottochoro@gmail.com',
-                pass: 'Mitcheri22go'
-            },
-            tls: {
-                rejectUnauthorized: false
-            }
-        }));
-
-
-
-        let unit = "Storage Cuboard";
-        let food = "chicken";
-        let site = "http://localhost:3000"
-        let to = 'sottochoro@gmail.com';
-        let from = '"ストーレジ 👻" <sottochoro@gmail.com>';
-        let subject = 'Hello ✔';
-        let html = '<p>The '+food+ddd+' in your <a href='+site+'>'+unit+'</a> will expire one month from today. You should check out these recipes that use '+food+dd+'. Love you honey :) From, Yourself. Check the from sender.</p>';
-        
-        // setup email data with unicode symbols
-        let mailOptions = {
-            from: from, // sender address
-            to: to, // list of receivers
-            subject: subject, // Subject line
-            //text: 'Hello world ?', // plain text body
-            html: html // html body
-        };
-
-        // send mail with defined transport object
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                return console.log(error);
-            }
-            console.log('Message %s sent: %s', info.messageId, info.response);
-        });
-    }
-    else if(dd <= 0){
-        // create reusable transporter object using the default SMTP transport
-        let transporter = nodemailer.createTransport(smtpTransport({
-            service: 'gmail',
-            auth: {
-                user: 'sottochoro@gmail.com',
-                pass: 'Mitcheri22go'
-            },
-            tls: {
-                rejectUnauthorized: false
-            }
-        }));
-
-
-
-        let unit = "Storage Cuboard";
-        let food = "chicken";
-        let site = "http://localhost:3000"
-        let to = 'sottochoro@gmail.com';
-        let from = '"ストーレジ 👻" <sottochoro@gmail.com>';
-        let subject = 'Hello ✔';
-        let html = '<p>The '+food+ddd+' in your <a href='+site+'>'+unit+'</a> has reached its expiration date.</p>';
-        
-        // setup email data with unicode symbols
-        let mailOptions = {
-            from: from, // sender address
-            to: to, // list of receivers
-            subject: subject, // Subject line
-            //text: 'Hello world ?', // plain text body
-            html: html // html body
-        };
-
-        // send mail with defined transport object
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                return console.log(error);
-            }
-            console.log('Message %s sent: %s', info.messageId, info.response);
-        });
-    }
-
+//    if(dd < maxDistance && dd > 0){
+//        // create reusable transporter object using the default SMTP transport
+//        let transporter = nodemailer.createTransport(smtpTransport({
+//            service: 'gmail',
+//            auth: {
+//                user: 'sottochoro@gmail.com',
+//                pass: 'Mitcheri22go'
+//            },
+//            tls: {
+//                rejectUnauthorized: false
+//            }
+//        }));
+//
+//        let subject = 'Hello ✔';
+//        let html = '<p>The '+food+' in your <a href='+site+'>'+unit+'</a> will expire one month from today. You should check out these recipes that use '+food+dd+'. Love you honey :) From, Yourself. Check the from sender.</p>';
+//        
+//        // setup email data with unicode symbols
+//        let mailOptions = {
+//            from: from, // sender address
+//            to: to, // list of receivers
+//            subject: subject, // Subject line
+//            //text: 'Hello world ?', // plain text body
+//            html: html // html body
+//        };
+//
+//        // send mail with defined transport object
+//        transporter.sendMail(mailOptions, (error, info) => {
+//            if (error) {
+//                return console.log(error);
+//            }
+//            console.log('Message %s sent: %s', info.messageId, info.response);
+//        });
+//    }
+//    else if(dd <= 0){
+//        // create reusable transporter object using the default SMTP transport
+//        let transporter = nodemailer.createTransport(smtpTransport({
+//            service: 'gmail',
+//            auth: {
+//                user: 'sottochoro@gmail.com',
+//                pass: 'Mitcheri22go'
+//            },
+//            tls: {
+//                rejectUnauthorized: false
+//            }
+//        }));
+//
+//        let subject = 'Hello ✔';
+//        let html = '<p>The '+food+dd+' in your <a href='+site+'>'+unit+'</a> has reached its expiration date.</p>';
+//        
+//        // setup email data with unicode symbols
+//        let mailOptions = {
+//            from: from, // sender address
+//            to: to, // list of receivers
+//            subject: subject, // Subject line
+//            //text: 'Hello world ?', // plain text body
+//            html: html // html body
+//        };
+//
+//        // send mail with defined transport object
+//        transporter.sendMail(mailOptions, (error, info) => {
+//            if (error) {
+//                return console.log(error);
+//            }
+//            console.log('Message %s sent: %s', info.messageId, info.response);
+//        });
+//    }
       
 });
+
 
 
 
@@ -127,34 +118,7 @@ cron.schedule('1-59 * * * *', function(){
 
 
 
-passport.use('login', new LocalStrategy(function(username, password, done) {
-    //done is a function that returns an error, then  the userobject
-    if ((username && password) && !users[username]){
-      users[username] = {
-        'username':username,
-        'password':password,
-        keys: {}
-      };
-      //returns a promise, what do we do with this???
-       app.use('/login', loginRouter);
 
-      return done(null, { username: username, password: password, pairs: {} });
-    }
-    else {
-      return done(null, users[username]);
-    }
-}));
-
-// tell passport how to turn a user into serialized data that will be stored with the session
-//user object is generated above
-passport.serializeUser(function(user, done) {
-    done(null, user.username);
-});
-
-// tell passport how to go from the serialized data back to the user
-passport.deserializeUser(function(key, done) {
-    done(null, users[key]);
-});
 
 
 
@@ -203,10 +167,8 @@ app.post('/storage', function (req, res) {
   res.status(200).send(req.body);
 });
 
-app.post('/login', passport.authenticate('login'), function (req, res) {
-    res.status(200).send(req.user);
-    // res.send([{name: number},{name: "Mitch"},{name: "Bear"},{name: JSON.stringify(req.params)}]);
-});
+
+app.use('/api/login', loginRouter);
 
 app.get('/family', function (req, res) {
     res.sendFile(path.join(__dirname, '../www/html/Family/', 'family.html'));
@@ -218,6 +180,11 @@ app.get('/recipes', function (req, res) {
 
 app.get('/budget', function (req, res) {
   res.send('Hello World!')
+});
+
+
+app.get('*', function(req, res) {
+    res.sendFile('./index.html'); 
 });
 
 app.listen(3000, function() {
