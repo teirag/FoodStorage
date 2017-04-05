@@ -6,19 +6,62 @@ var LocalStrategy       = require('passport-local').Strategy;
 var passport            = require('passport');
 var session             = require('express-session');
 var path                = require('path');
-const loginRouter      = require('./routes/login');
+// const loginRouter      = require('./routes/login');
+const nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
+
+
 
 var app = express();
 const users = {};
 const storage = {};
 
+//NODEMAILER
+
+// create reusable transporter object using the default SMTP transport
+let transporter = nodemailer.createTransport(smtpTransport({
+    service: 'gmail',
+    auth: {
+        user: 'sottochoro@gmail.com',
+        pass: 'Mitcheri22go'
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+}));
+
+// setup email data with unicode symbols
+let mailOptions = {
+    from: '"Fred Foo 👻" <sottochoro@gmail.com>', // sender address
+    to: 'sottochoro@gmail.com', // list of receivers
+    subject: 'Hello ✔', // Subject line
+    text: 'Hello world ?', // plain text body
+    html: '<b>Hello world ?</b>' // html body
+};
+
+// send mail with defined transport object
+transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+        return console.log(error);
+    }
+    console.log('Message %s sent: %s', info.messageId, info.response);
+});
+
+
+//***********************************************************************
+
 
 passport.use('login', new LocalStrategy(function(username, password, done) {
     //done is a function that returns an error, then  the userobject
     if ((username && password) && !users[username]){
+      users[username] = {
+        'username':username,
+        'password':password,
+        keys: {}
+      };
+      //returns a promise, what do we do with this???
+      // app.use('/login', loginRouter);
 
-      app.use('/login', loginRouter);
-      
       return done(null, { username: username, password: password, pairs: {} });
     }
     else {

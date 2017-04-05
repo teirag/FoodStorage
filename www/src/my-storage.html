@@ -14,6 +14,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-label/iron-label.html">
 <link rel="import" href="../bower_components/custom/storage-table.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <dom-module id="my-storage">
   <template>
@@ -27,6 +28,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         border-bottom: black solid 2px;
         margin-bottom: 10px;
       }
+
     </style>
 
     <div class="card">
@@ -44,15 +46,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a href="/storage">{{item.name}}</a>
         </div>
       </template> -->
-      <div class="breakLine">
+      <h1>{{req.username}}'s Storage</h1>
+      <div class="breakLine" on-tap="showAddUnit">
         <iron-label>
-          <iron-icon icon="icons:add-circle-outline"></iron-icon> Backpack: add contents
+          <iron-icon icon="icons:add-circle-outline"></iron-icon>
+          <label for="">Add Storage Unit</label>
         </iron-label>
       </div>
-      Name <input type="text" name="storageName" value="{{storageName::change}}">
-      Type <input type="text" name="storageType" value="{{storageType::change}}">
-      <br><br>
-      <storage-table></storage-table>
+      <div class="breakLine" hidden$="{{hide}}">
+        <label>Item Name</label>
+        <input type="text" name="">
+          <br>
+        <label>Expiration Date</label>
+        <input type="date" name="">
+          <br>
+        <paper-button raised>Add Storage Unit</paper-button>
+    </div>
+      <!-- Name <input type="text" name="storageName" value="{{storageName::change}}">
+      Type <input type="text" name="storageType" value="{{storageType::change}}"> -->
+      <!-- <template is="dom-repeat" items="{{storage}}"> -->
+    <div class="breakLine">
+        <storage-table></storage-table> 
+    </div>
+     <div class="breakLine">
+        <storage-table></storage-table> 
+    </div> 
+      <!-- </template> -->
 
     </div>
   </template>
@@ -73,7 +92,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         size: "",
         storageItem: {
           computed: 'storeItems(storageName, storageType)'
+        },
+        hide: {
+            type: Boolean,
+            value: true
         }
+        
+      },
+
+      showAddUnit: function(){
+        this.hide = !this.hide;  
       },
 
       storeItems: function(storageName, storageType){

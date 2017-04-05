@@ -17,6 +17,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
 <link rel="import" href="../bower_components/custom/storage-table.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <!-- how to do a local strategy for storage items?  -->
 <dom-module id="my-login">
   <template>
@@ -45,14 +47,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         handle-as="json"
         content-type="application/x-www-form-urlencoded"
         last-response="{{response}}"></iron-ajax>
-        <p>{{response.username}}</p>
+        <p>{{response.username}} | {{response.password}}</p>
         <!-- <template is="dom-repeat" items="{{response}}">
           <div class="">
             <a href="/storage">{{item.name}}</a>
           </div>
         </template> -->
+        <label>username </label><br>
+        <iron-icon icon="icons:account-box"></iron-icon>
         <input type="text" name="username" value="{{username::change}}">
+        <br><br>
+        <label>password </label><br>
+        <iron-icon icon="icons:lock"></iron-icon>
         <input type="text" name="password" value="{{password::change}}">
+        <br><br>
+        <paper-button raised>Submit</paper-button>
     </div>
     <script type="text/javascript">
     // function _submit(event) {
