@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/login', function(req, res) {
     const userStuff = login.addPerson(req.body);
+    console.log(userStuff);
     res.json(userStuff);
 });
 
