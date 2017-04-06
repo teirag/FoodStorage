@@ -159,32 +159,31 @@ app.use(express.static("www"));
 
 
 
-app.get('/', function (req, res) {
+app.get('/api/', function (req, res) {
   res.send('Hello World!')
 });
-
-app.post('/storage', function (req, res) {
-  res.status(200).send(req.body);
-});
-
 
 app.use('/api/login', loginRouter);
 
-app.get('/family', function (req, res) {
+app.post('/api/storage', function (req, res) {
+  res.status(200).send(req.body);
+});
+
+app.get('/api/family', function (req, res) {
     res.sendFile(path.join(__dirname, '../www/html/Family/', 'family.html'));
 });
 
-app.get('/recipes', function (req, res) {
+app.get('/api/recipes', function (req, res) {
   res.send('Hello World!')
 });
 
-app.get('/budget', function (req, res) {
+app.get('/api/budget', function (req, res) {
   res.send('Hello World!')
 });
 
 
 app.get('*', function(req, res) {
-    res.sendFile('./index.html'); 
+    res.sendFile('index.html', { root: path.join(__dirname, '../www/') }); 
 });
 
 app.listen(3000, function() {

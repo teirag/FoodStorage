@@ -1,21 +1,39 @@
 //just copied from recipe.js, still need to edit
-const express = require('express');
-const login = require('../controllers/login');
-const router = express.Router();
+const express           = require('express');
+var login             = require('../controllers/login');
+const router            = express.Router();
+var passport            = require('passport');
+var LocalStrategy       = require('passport-local').Strategy;
+
 
 passport.use('login', new LocalStrategy(function(username, password, done) {
-    //done is a function that returns an error, then  the userobject
-    if ((username && password) && !users[username]){
-      users[username] = {
-        'username':username,
-        'password':password,
-        keys: {}
-      };
+    
+    login.findPerson(username, password)
+        .then(dbResult => {
+            console.log(dbResult);
+        if(dbResult.length > 0){
+            if(password === dbResult[0].user.password){
+                return done(null, dbResult[0].user);
+            }
 
-      return done(null, { username: username, password: password, pairs: {} });
+        }
+        else{
+//            login.addPerson(username, password)
+//            .then(dbResult => {
+//                //add user to database
+//            });
+//            return done(null, users[username]);
+        }
+//            res.status(200).send("You created an account");
+        });
+    //get user from database here, if doesn't exist, enter user and return their info, else, return their info
+    
+    //done is a function that returns an error, then  the userobject
+    if (username && password){
+
     }
     else {
-      return done(null, users[username]);
+      // get user from mongodb
     }
 }));
 
@@ -27,23 +45,27 @@ passport.serializeUser(function(user, done) {
 
 // tell passport how to go from the serialized data back to the user
 passport.deserializeUser(function(key, done) {
-    done(null, users[key]);
+    done(null, false);
 });
 
-router.post('/', passport.authenticate('login'), function (req, res) {
-    const user = req.user;
-    login.addPerson(user.username, user.password)
-        .then(dbResult => {
-            //whatever
-            res.status(200).send("You created an account");
-        })
+router.post('/', function (req, res) {
+//    console.log("in");
+//    const user = req.user;
+//    login.addPerson(user.username, user.password)
+//        .then(dbResult => {
+//            //whatever
+//            res.status(200).send("You created an account");
+//        })
     // res.send([{name: number},{name: "Mitch"},{name: "Bear"},{name: JSON.stringify(req.params)}]);
 });
 
-router.post('/login', function(req, res) {
-    const userStuff = login.addPerson(req.body);
-    console.log(userStuff);
-    res.json(userStuff);
+router.post('/login', passport.authenticate('login'), function(req, res) {
+    var username = req.body.username
+    var password = req.body.password;
+//    login.addPerson(username, password)
+//        .then(dbResult => {
+//            res.status(200).send("You created an account");
+//        });
 });
 
 router.post('/', function(req, res){
