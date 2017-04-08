@@ -12,9 +12,8 @@ passport.use('login', new LocalStrategy(function(username, password, done) {
         .then(dbResult => {
             if(dbResult.length > 0){
                 if(password === dbResult[0].user.password){
-                    console.log(dbResult[0].user.password);
                     //done is a function that returns an error, then  the userobject
-                    return done(null, dbResult[0].user);
+                    return done(null, dbResult[0]);
                 }
 
             }
@@ -34,8 +33,7 @@ passport.use('login', new LocalStrategy(function(username, password, done) {
 //                                });
 //                        }
 //                    });
-                console.log(false); //how do I get information from here?
-        return done(null, false);
+        return done(null, { user: { username: 'Your username or password is incorrect! Please try again or click "Register Now" at the bottom of the page.'}});
 
             }
     });
@@ -48,12 +46,12 @@ passport.use('login', new LocalStrategy(function(username, password, done) {
 // tell passport how to turn a user into serialized data that will be stored with the session
 //user object is generated above
 passport.serializeUser(function(user, done) {
-    done(null, user.username);
+    done(null, user);
 });
 
 // tell passport how to go from the serialized data back to the user
-passport.deserializeUser(function(username, done) {
-    done(null, username);
+passport.deserializeUser(function(user, done) {
+    done(null, user);
 });
 
 router.post('/', function (req, res) {
@@ -68,14 +66,9 @@ router.post('/', function (req, res) {
 });
 
 router.post('/login', passport.authenticate('login'), function(req, res) {
-    console.log("yep");
-    var username = req.body.username
-    var password = req.body.password;
-    res.status(200).send(username);
-//    login.addPerson(username, password)
-//        .then(dbResult => {
-//            res.status(200).send("You created an account");
-//        });
+    var user = req.user
+    res.status(200).send(user);
+
 });
 
 router.post('/', function(req, res){

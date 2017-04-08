@@ -40,14 +40,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </form> -->
 
         <iron-ajax
-        auto
+        id="ajax"
         method="post"
         url="/api/login/login"
         body="{{data}}"
-        handle-as="string"
+        handle-as="json"
         content-type="application/x-www-form-urlencoded"
-        last-response="{{response}}"></iron-ajax>
-        <p>{{response}}</p>
+        on-response="loginResponse"></iron-ajax>
+        <p>{{loginError}}</p>
+        <p>{{username}}</p>
         <!-- <template is="dom-repeat" items="{{response}}">
           <div class="">
             <a href="/storage">{{item.name}}</a>
@@ -61,7 +62,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <iron-icon icon="icons:lock"></iron-icon>
         <input type="text" name="password" value="{{password::change}}">
         <br><br>
-        <paper-button raised>Submit</paper-button>
+        <paper-button id="submit" raised>Submit</paper-button>
     </div>
     <script type="text/javascript">
     // function _submit(event) {
@@ -85,13 +86,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: 'login'
         },
         username: {
-          value: 'Jeffrey',
+          value: '',
           notify: true
         },
         password: {
-          value: "Sotto",
+          value: "",
           notify: true
         },
+				user: {
+					type: Object,
+					reflectToAttribute: true,
+					notify: true
+				},
+				loginError: {
+					type: String
+				},
         data: {
           computed: 'computeData(username, password)'
         },
@@ -100,6 +109,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           notify: true
         }
       },
+			
+			listeners: {
+				'submit.tap':'setAjax'
+			},
+			
+			setAjax: function(){
+         this.$.ajax.generateRequest();
+			},
+			
+			loginResponse: function(request){
+				var responseObject = request.detail.response;
+				console.log(responseObject);
+				if(request.detail.response.user.username.indexOf('!') === -1){
+					var userInfo = { id: responseObject._id, user: responseObject.user.username, storageUnits: responseObject.storageUnits, recipes: responseObject.recipes }
+					this.user = userInfo;
+				}
+				else{
+					this.loginError = responseObject.user.username;
+					this.user = { error: "No user" };
+				}
+			},
 
       computeUrl: function(owner, repo) {
         return ["https://api.github.com/", owner, repo, 'issues'].join('/');

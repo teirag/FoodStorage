@@ -74,8 +74,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a name="login" href="/login">Login</a>
           <a name="storage" href="/storage">Storage</a>
           <a name="family" href="/family">Family</a>
-            <a name="budget" href="/budget">Budget</a>
-            <a name="recipes" href="/recipes">Recipes</a>
+					<a name="budget" href="/budget">Budget</a>
+					<a name="recipes" href="/recipes">Recipes</a>
+					<a>{{user.user}}</a>
         </iron-selector>
       </app-drawer>
 
@@ -94,7 +95,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             attr-for-selected="name"
             fallback-selection="view404"
             role="main">
-          <my-login name="login"></my-login>
+          <my-login name="login" user="{{user}}"></my-login>
           <my-storage name="storage"></my-storage>
           <my-family name="family"></my-family>
           <my-budget name="budget"></my-budget>
@@ -107,7 +108,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   </template>
 
-  <script>
+  <script>		
     Polymer({
       is: 'my-app',
 
@@ -117,11 +118,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           reflectToAttribute: true,
           observer: '_pageChanged',
         },
+				user: {
+					type: Object,
+					notify: true,
+					value: { error: "No user"}
+				}
       },
 
       observers: [
         '_routePageChanged(routeData.page)',
       ],
+			
+			
 
       _routePageChanged: function(page) {
         this.page = page || 'login';
