@@ -1,17 +1,20 @@
-// this is our example of basically the people.js controller we have, but using an actual database
+
 const dbPromise = require('../database');
 
-exports.addItem = function(title, description)
+
+//ingredients needs to be an array of the ingredients with embedded documents that contain the ingredient name and amount
+exports.addRecipe = function(title, instructions, ingredients)
 {
-    const o = {
-        title: title,
-        description: description
+    const title = {
+        'title': title,
+        'instructions': instructions,
+        'ingredients': ingredients
     };
     
     return dbPromise
         .then(db => {
           // Get the collection
-          var col = db.collection('recipes');
+          var col = db.collection(username);
           return col.insertOne(o);//returns a promise
         });
 }; 
