@@ -9,15 +9,76 @@
 
             padding: 16px;
           }
+            .breakLine{
+        border-bottom: black solid 2px;
+        margin-bottom: 10px;
+      }
         </style>
         <div class="card">
           <!-- put all code within this card div -->
+            <iron-ajax
+              auto
+              method="post"
+              url="/api/recipes/recipes"
+              body="{{recipe}}"
+              handle-as="json"
+              content-type="application/x-www-form-urlencoded"
+              last-response="{{response}}"></iron-ajax>
+            <p>{{response.name}} | {{response.type}}</p>
+            <h1>{{req.username}}'s Recipes</h1>
+            <div class="breakLine" on-tap="showAddRecipe">
+                <iron-label>
+                  <iron-icon icon="icons:add-circle-outline"></iron-icon>
+                  <label for="">Add Recipe</label>
+                </iron-label>
+              </div>
+            <div class="breakLine" hidden$="{{hide}}">
+                <label>Recipe Name</label>
+                <input type="text" name="">
+                  <br>
+                <label>Ingredient</label>
+                <input type="text" name="">
+                <label>Amount</label>
+                <input type="text" name="">
+                  <br>
+                <label>Instructions</label>
+                <input type="text" name="">
+                  <br>
+                <paper-button raised>Add Recipe</paper-button>
+            </div>
         </div>
     </template>
 
     <script>
-        Polymer({
-            is: "my-recipes",
-        });
-    </script>
+			Polymer({
+				is: "my-recipes",
+
+				properties: {
+					recipeName: {
+						value: 'recipe'
+						notify: true
+					},
+					ingredients: {
+						value: 'Ingred',
+						notify: true
+					},
+					instructions: {
+						value: 'instruct'
+						notify: true
+					},
+					hide: {
+            type: Boolean,
+            value: true
+					}
+        },
+
+			 showAddRecipe: function(){
+					this.hide = !this.hide;  
+				},
+
+				storeItems: function(storageName, storageType){
+					return { name: storageName, type: storageType };
+				}
+			});
+		</script>
 </dom-module>
