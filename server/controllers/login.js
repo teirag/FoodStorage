@@ -61,11 +61,11 @@ exports.addPerson = function(username, password) {
       });
 }
 
-exports.findPerson = function(username) {
+exports.findPerson = function(username, password) {
     return dbPromise
       .then(db => {
         // Get the collection
         var col = db.collection('users'); //send 
-        return col.find({"user.username":username}).limit(1).toArray();//returns a promise
+        return col.find({"user.username":username, "user.password":password }).toArray();//returns a promise
       });
 }

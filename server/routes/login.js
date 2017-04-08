@@ -19,21 +19,24 @@ passport.use('login', new LocalStrategy(function(username, password, done) {
 
             }
             else{
-                login.addPerson(username, password)
-                    .then(addResult => {
-                        if(addResult){
-                            login.findPerson(username, password)
-                                .then(findResult => {
-                                    if(findResult.length > 0){
-                                        if(password === findResult[0].user.password){
-                                            console.log(findResult[0].user.password);
-                                            //done is a function that returns an error, then  the userobject
-                                            return done(null, findResult[0].user);
-                                        }
-                                    }
-                                });
-                        }
-                    });
+//                login.addPerson(username, password)
+//                    .then(addResult => {
+//                        if(addResult){
+//                            login.findPerson(username, password)
+//                                .then(findResult => {
+//                                    if(findResult.length > 0){
+//                                        if(password === findResult[0].user.password){
+//                                            console.log(findResult[0].user.username);
+//                                            //done is a function that returns an error, then  the userobject
+//                                            return done(null, findResult[0].user);
+//                                        }
+//                                    }
+//                                });
+//                        }
+//                    });
+                console.log(false); //how do I get information from here?
+        return done(null, false);
+
             }
     });
     //get user from database here, if doesn't exist, enter user and return their info, else, return their info
@@ -65,6 +68,7 @@ router.post('/', function (req, res) {
 });
 
 router.post('/login', passport.authenticate('login'), function(req, res) {
+    console.log("yep");
     var username = req.body.username
     var password = req.body.password;
     res.status(200).send(username);

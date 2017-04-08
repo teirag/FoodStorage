@@ -1,7 +1,6 @@
 // include modules
 var bodyParser          = require('body-parser');
 var cookieParser        = require('cookie-parser');
-
 var express             = require('express');
 var LocalStrategy       = require('passport-local').Strategy;
 var passport            = require('passport');
