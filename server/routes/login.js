@@ -10,31 +10,36 @@ passport.use('login', new LocalStrategy(function(username, password, done) {
     
     login.findPerson(username, password)
         .then(dbResult => {
-            console.log(dbResult);
-        if(dbResult.length > 0){
-            if(password === dbResult[0].user.password){
-                return done(null, dbResult[0].user);
-            }
+            if(dbResult.length > 0){
+                if(password === dbResult[0].user.password){
+                    console.log(dbResult[0].user.password);
+                    //done is a function that returns an error, then  the userobject
+                    return done(null, dbResult[0].user);
+                }
 
-        }
-        else{
-//            login.addPerson(username, password)
-//            .then(dbResult => {
-//                //add user to database
-//            });
-//            return done(null, users[username]);
-        }
-//            res.status(200).send("You created an account");
-        });
+            }
+            else{
+                login.addPerson(username, password)
+                    .then(addResult => {
+                        if(addResult){
+                            login.findPerson(username, password)
+                                .then(findResult => {
+                                    if(findResult.length > 0){
+                                        if(password === findResult[0].user.password){
+                                            console.log(findResult[0].user.password);
+                                            //done is a function that returns an error, then  the userobject
+                                            return done(null, findResult[0].user);
+                                        }
+                                    }
+                                });
+                        }
+                    });
+            }
+    });
     //get user from database here, if doesn't exist, enter user and return their info, else, return their info
     
-    //done is a function that returns an error, then  the userobject
-    if (username && password){
-
-    }
-    else {
-      // get user from mongodb
-    }
+    
+    
 }));
 
 // tell passport how to turn a user into serialized data that will be stored with the session
@@ -44,8 +49,8 @@ passport.serializeUser(function(user, done) {
 });
 
 // tell passport how to go from the serialized data back to the user
-passport.deserializeUser(function(key, done) {
-    done(null, false);
+passport.deserializeUser(function(username, done) {
+    done(null, username);
 });
 
 router.post('/', function (req, res) {
@@ -62,6 +67,7 @@ router.post('/', function (req, res) {
 router.post('/login', passport.authenticate('login'), function(req, res) {
     var username = req.body.username
     var password = req.body.password;
+    res.status(200).send(username);
 //    login.addPerson(username, password)
 //        .then(dbResult => {
 //            res.status(200).send("You created an account");

@@ -44,10 +44,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         method="post"
         url="/api/login/login"
         body="{{data}}"
-        handle-as="json"
+        handle-as="string"
         content-type="application/x-www-form-urlencoded"
         last-response="{{response}}"></iron-ajax>
-        <p>{{response.username}} | {{response.password}}</p>
+        <p>{{response}}</p>
         <!-- <template is="dom-repeat" items="{{response}}">
           <div class="">
             <a href="/storage">{{item.name}}</a>
