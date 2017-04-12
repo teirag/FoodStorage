@@ -33,7 +33,7 @@ passport.use('login', new LocalStrategy(function(username, password, done) {
 //                                });
 //                        }
 //                    });
-        return done(null, { user: { username: 'Your username or password is incorrect! Please try again or click "Register Now" at the bottom of the page.'}});
+        return done(null, { user: { username: 'Your username or password is incorrect! Please try again or click "Register Now" at the bottom of the page.', id: null}});
 
             }
     });
@@ -46,12 +46,20 @@ passport.use('login', new LocalStrategy(function(username, password, done) {
 // tell passport how to turn a user into serialized data that will be stored with the session
 //user object is generated above
 passport.serializeUser(function(user, done) {
-    done(null, user);
+//	done(null, user._id);
+	done(null, user._id);
 });
 
 // tell passport how to go from the serialized data back to the user
-passport.deserializeUser(function(user, done) {
-    done(null, user);
+passport.deserializeUser(function(userId, done) {
+	login.find_person_by_id(userId)
+			.then(data => {
+		if(data){
+					done(null, data); //query database for the user object
+					//this allows the server to use the user object after you turn it back into an object (req.user);
+				}
+			});
+	
 });
 
 router.post('/', function (req, res) {

@@ -6,89 +6,156 @@ var LocalStrategy       = require('passport-local').Strategy;
 var passport            = require('passport');
 var session             = require('express-session');
 var path                = require('path');
- const loginRouter      = require('./routes/login');
-const nodemailer        = require('nodemailer');
-var smtpTransport       = require('nodemailer-smtp-transport');
-var cron                = require('node-cron');
-
+const loginRouter       = require('./routes/login');
+// const emailRouter      = require('./routes/email');
 
 var app = express();
-const users = {};
-const storage = {};
+
 
 
 
 
 //******************* Cron Job with Nodemailer ******************************
 
+const nodemailer        = require('nodemailer');
+var smtpTransport       = require('nodemailer-smtp-transport');
+var cron                = require('node-cron');
+var email               = require('./controllers/email');
+
+
+
 
 
 //mails specified email every minute
-cron.schedule('1-59 * * * *', function(){
-    
-    //get each user, check to see if today is 1 month before any expiration dates, send email to their email if it is.
-    
-    let unit = "Storage Cuboard";
-    let food = "chicken";
-    let site = "http://localhost:3000"
-    let to = 'sottochoro@gmail.com';
-    let from = '"ストーレジ 👻" <sottochoro@gmail.com>';
+cron.schedule('5 * * * *', function(){
     
     var d = new Date(); //today's date
-    var exp =  new Date() - 5;
-    var dd = exp - d;
-    var maxDistance = 30;
+		var maxDistance = 30;
+	
+		//get each user, check to see if today is 1 month before any expiration dates, send email to their email if it is.
+		email.getAllUsers()
+			.then(dbResult => {
+				if(dbResult){
+					for(let i = 0; i < dbResult.length; i++){
+						var expiringFood = [];
+						for(let j = 0; j < dbResult[i].storageUnits.length; j++){
+							for(let k = 0; k < dbResult[i].storageUnits[j].items.length; k++){
+								var expdate = new Date(dbResult[i].storageUnits[j].items[k].expdate + 'Z');
+								var timeDiff = Math.abs(expdate - d);
+								const diffDays = Math.round(timeDiff / (1000 * 3600 * 24));
+								
+    						if(diffDays < maxDistance && diffDays > 0){
+									expiringFood.push({item: dbResult[i].storageUnits[j].items[k].name, expire_in: diffDays, storage_place: dbResult[i].storageUnits[j].name })
+								}
+							}
+						}
+					
+					let userEmail = 'sottochoro@gmail.com';
+					let to = userEmail;
+					let from = '"ストーレジ 👻" <sottochoro@gmail.com>';
+					let subject = 'Your Food will expire soon! ✔';	
+					let site = "http://localhost:3000"					
+						
+					let finalArr = [];
+					for(let i = 0; i < expiringFood.length; i++){
+						finalArr.push(`
+							<tr>
+							<td style="text-align: center; border: black solid 1px;">`
+							+expiringFood[i].storage_place+
+							`</td>
+							<td style="text-align: center; border: black solid 1px;">`
+							+expiringFood[i].item+
+							`</td>
+							<td style="text-align: center; border: black solid 1px;">`
+							+expiringFood[i].expire_in+
+							`</td>
+							</tr>
+						`);
+					}
+						
+					let html = `
+						<h2>Your FoodStorage items listed below will expire within 30 days</h2>
+						<br>
+						<table style="border: solid black 2px;">
+							<thead>
+								<tr>
+									<th style="border: solid black 1px;">Storage Unit</th>
+									<th style="border: solid black 1px;">Storage Item</th>
+									<th style="border: solid black 1px;">Days till Expired</th>
+								</tr>
+							</thead>
+							<tbody>
+							`
+							+finalArr.join("")+
+							`
+							</tbody>
+						</table>
+
+						<h3>Take a look at some of these <a href="`+site+`">recipes</a> that use the items above.</h3>
+					`;
+
+						// create reusable transporter object using the default SMTP transport
+						let transporter = nodemailer.createTransport(smtpTransport({
+								service: 'gmail',
+								auth: {
+										user: 'sottochoro@gmail.com',
+										pass: 'Mitcheri22go'
+								},
+								tls: {
+										rejectUnauthorized: false
+								}
+						}));
+
+						// setup email data with unicode symbols
+							let mailOptions = {
+									from: from, // sender address
+									to: to, // list of receivers
+									subject: subject, // Subject line
+									//text: 'Hello world ?', // plain text body
+									html: html // html body
+							};
+
+							// send mail with defined transport object
+							transporter.sendMail(mailOptions, (error, info) => {
+									if (error) {
+											return console.log(error);
+									}
+									console.log('Message %s sent: %s', info.messageId, info.response);
+							});
+
+					}
+				}
+			});
+					
+					
+					
+					
+					
+					
+	
     
-//    if(dd < maxDistance && dd > 0){
-//        // create reusable transporter object using the default SMTP transport
-//        let transporter = nodemailer.createTransport(smtpTransport({
-//            service: 'gmail',
-//            auth: {
-//                user: 'sottochoro@gmail.com',
-//                pass: 'Mitcheri22go'
-//            },
-//            tls: {
-//                rejectUnauthorized: false
-//            }
-//        }));
-//
-//        let subject = 'Hello ✔';
-//        let html = '<p>The '+food+' in your <a href='+site+'>'+unit+'</a> will expire one month from today. You should check out these recipes that use '+food+dd+'. Love you honey :) From, Yourself. Check the from sender.</p>';
-//        
-//        // setup email data with unicode symbols
-//        let mailOptions = {
-//            from: from, // sender address
-//            to: to, // list of receivers
-//            subject: subject, // Subject line
-//            //text: 'Hello world ?', // plain text body
-//            html: html // html body
-//        };
-//
-//        // send mail with defined transport object
-//        transporter.sendMail(mailOptions, (error, info) => {
-//            if (error) {
-//                return console.log(error);
-//            }
-//            console.log('Message %s sent: %s', info.messageId, info.response);
-//        });
+
 //    }
-//    else if(dd <= 0){
-//        // create reusable transporter object using the default SMTP transport
-//        let transporter = nodemailer.createTransport(smtpTransport({
-//            service: 'gmail',
-//            auth: {
-//                user: 'sottochoro@gmail.com',
-//                pass: 'Mitcheri22go'
-//            },
-//            tls: {
-//                rejectUnauthorized: false
-//            }
-//        }));
-//
+//    else if(diffDays == 0){
 //        let subject = 'Hello ✔';
-//        let html = '<p>The '+food+dd+' in your <a href='+site+'>'+unit+'</a> has reached its expiration date.</p>';
+//        let html = '<p>The '+food+' in your <a href='+site+'>'+unit+'</a> has reached its expiration date.</p>';
 //        
-//        // setup email data with unicode symbols
+//      // create reusable transporter object using the default SMTP transport
+//			let transporter = nodemailer.createTransport(smtpTransport({
+//		
+	
+	
+//	service: 'gmail',
+//					auth: {
+//							user: 'sottochoro@gmail.com',
+//							pass: 'Mitcheri22go'
+//					},
+//					tls: {
+//							rejectUnauthorized: false
+//					}
+//			}));  
+//			
+//			// setup email data with unicode symbols
 //        let mailOptions = {
 //            from: from, // sender address
 //            to: to, // list of receivers
@@ -108,18 +175,8 @@ cron.schedule('1-59 * * * *', function(){
       
 });
 
-
-
-
-
-//******************** Passport User stuff *****************************
-
-
-
-
-
-
-
+	
+	
 
 
 

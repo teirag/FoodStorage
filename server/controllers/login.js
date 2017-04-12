@@ -23,25 +23,38 @@ exports.addPerson = function(username, password) {
   };
     
     var storagedata = [
-//        {
-//            name: mystorage1,
-//            items: [
-//                {
-//                    name: 'chicken',
-//                    type: 'can',
-//                    expdate: 'today',
-//                    size: '12oz',
-//                    commonrecipes: 'those'
-//                },
-//                {
-//                    name: 'stuff',
-//                    type: 'other',
-//                    expdate: 'yesterday',
-//                    size: '50lbs',
-//                    commonrecipes: 'bread'
-//                }
-//            ]
-//        }
+        {
+            name: "mystorage1",
+            items: [
+                {
+                    name: 'chicken',
+                    type: 'can',
+								expdate: "04/20/2017",
+									size: '12oz',
+                    commonrecipes: 'those'
+                },
+                {
+                    name: 'bread',
+                    type: 'other',
+								expdate: "04/12/2017",
+                    size: '50lbs',
+                    commonrecipes: 'bread'
+                }
+            ]
+        },
+					{
+						name: "mystorage2",
+						items: [
+							{
+								name: "carrot",
+								expdate: "04/27/2017"
+							},
+							{
+								name: "spam",
+								expdate: "04/27/2077"
+							}
+						]
+					}
     ];
     
     var recipedata = [
@@ -60,6 +73,16 @@ exports.addPerson = function(username, password) {
         return col.insert({ user: userdata, storageUnits: storagedata, recipes: recipedata });//returns a promise
       });
 }
+
+exports.find_person_by_id = function(id){
+		return dbPromise
+			.then(db =>{
+			var ObjectId = require('mongodb').ObjectID;
+			var ID = new ObjectId(id);
+				var col = db.collection('users');
+			return col.find({"_id": new ObjectId(id)}).toArray();
+			});
+};
 
 exports.findPerson = function(username, password) {
     return dbPromise
