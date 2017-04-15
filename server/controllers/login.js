@@ -28,17 +28,11 @@ exports.addPerson = function(username, password) {
             items: [
                 {
                     name: 'chicken',
-                    type: 'can',
-								expdate: "04/20/2017",
-									size: '12oz',
-                    commonrecipes: 'those'
+										expdate: "04/20/2017"
                 },
                 {
                     name: 'bread',
-                    type: 'other',
-								expdate: "04/12/2017",
-                    size: '50lbs',
-                    commonrecipes: 'bread'
+										expdate: "04/12/2017"
                 }
             ]
         },
