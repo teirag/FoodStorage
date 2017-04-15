@@ -58,11 +58,20 @@ exports.addPerson = function(username, password) {
     ];
     
     var recipedata = [
-//        {
-//            name: recipe1,
-//            ingredients: [{ name: flour, amount: '1 cup'}, { name: sugar, amount: '2 cup'}],
-//            instructions: "bla bla bla"
-//        }
+        {
+            name: "recipe1",
+            ingredients: [
+							{ name: 'flour', amount: '1 cup'}, { name: 'sugar', amount: '2 cups'}
+						],
+            instructions: "bla bla bla"
+        },
+			{
+            name: "recipe2",
+            ingredients: [
+							{ name: 'flour', amount: '5 cups'}, { name: 'sugar', amount: '6 cups'}
+						],
+            instructions: "bla bla bla"
+        }
     ];
     
 

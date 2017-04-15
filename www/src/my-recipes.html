@@ -1,9 +1,14 @@
-<link rel="import" href="./bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/iron-data-table/iron-data-table.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-label/iron-label.html">
+<link rel="import" href="../bower_components/custom/recipe-outline.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <dom-module id="my-recipes">
     <template>
-        <style>
+        <style include="shared-styles">
           :host {
             display: block;
 
@@ -19,7 +24,7 @@
             <iron-ajax
               auto
               method="post"
-              url="/api/recipes/recipes"
+              url="/api/recipe"
               body="{{recipe}}"
               handle-as="json"
               content-type="application/x-www-form-urlencoded"
@@ -38,14 +43,18 @@
                   <br>
                 <label>Ingredient</label>
                 <input type="text" name="">
-                <label>Amount</label>
-                <input type="text" name="">
                   <br>
                 <label>Instructions</label>
                 <input type="text" name="">
                   <br>
-                <paper-button raised>Add Recipe</paper-button>
-            </div>
+							<iron-label>
+                  <iron-icon icon="icons:add-circle-outline"></iron-icon>
+                  <label for="">Add Recipe</label>
+                </iron-label>           
+					</div>
+					<div class="breakLine">
+						<recipe-outline></recipe-outline>
+					</div>
         </div>
     </template>
 
@@ -55,7 +64,7 @@
 
 				properties: {
 					recipeName: {
-						value: 'recipe'
+						value: 'My-Recipes',
 						notify: true
 					},
 					ingredients: {
@@ -63,7 +72,7 @@
 						notify: true
 					},
 					instructions: {
-						value: 'instruct'
+						value: 'instruct',
 						notify: true
 					},
 					hide: {
@@ -78,11 +87,11 @@
 
 			 showAddRecipe: function(){
 					this.hide = !this.hide;  
-				},
-
-				storeItems: function(storageName, storageType){
-					return { name: storageName, type: storageType };
 				}
+//
+//				storeItems: function(storageName, storageType){
+//					return { name: storageName, type: storageType };
+//				}
 			});
 		</script>
 </dom-module>
