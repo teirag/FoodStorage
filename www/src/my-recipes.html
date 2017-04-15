@@ -52,9 +52,9 @@
                   <label for="">Add Recipe</label>
                 </iron-label>           
 					</div>
-					<template is="dom-repeat" recipe="{{recipe}}" as="recipe">
-					<div class="breakLine">
-						<recipe-outline></recipe-outline>
+					<template is="dom-repeat" items="{{recipes}}" as="recipe">
+					<div class="card">
+						<recipe-outline recipe="{{recipe}}"></recipe-outline>
 					</div>
 					</template>
         </div>
