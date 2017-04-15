@@ -52,9 +52,11 @@
                   <label for="">Add Recipe</label>
                 </iron-label>           
 					</div>
-					<div class="breakLine">
-						<recipe-outline></recipe-outline>
+					<template is="dom-repeat" items="{{recipes}}" as="recipe">
+					<div class="card">
+						<recipe-outline recipe="{{recipe}}"></recipe-outline>
 					</div>
+					</template>
         </div>
     </template>
 
@@ -63,25 +65,29 @@
 				is: "my-recipes",
 
 				properties: {
-					recipeName: {
-						value: 'My-Recipes',
-						notify: true
-					},
-					ingredients: {
-						value: 'Ingred',
-						notify: true
-					},
-					instructions: {
-						value: 'instruct',
-						notify: true
-					},
 					hide: {
             type: Boolean,
             value: true
 					},
 					recipes: {
 						type: Array,
-						notify: true
+						notify: true,
+						value: [
+							{ "name" : "recipe1",
+							 "ingredients" :
+									[ 
+										{ "name" : "flour", "amount" : "1 cup" },
+										{ "name" : "sugar", "amount" : "2 cups" } 
+									],
+							 "instructions" : "bla bla bla" },
+							{ "name" : "recipe2",
+							 "ingredients" :
+									[ 
+										{ "name" : "flour", "amount" : "2 cup" },
+										{ "name" : "sugar", "amount" : "5 cups" } 
+									],
+							 "instructions" : "hi bla bla" }
+        			];
 					}
         },
 
