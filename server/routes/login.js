@@ -54,6 +54,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(userId, done) {
 	login.find_person_by_id(userId)
 			.then(data => {
+//		console.log(data);
 		if(data){
 					done(null, data); //query database for the user object
 					//this allows the server to use the user object after you turn it back into an object (req.user);
@@ -71,6 +72,13 @@ router.post('/', function (req, res) {
 //            res.status(200).send("You created an account");
 //        })
     // res.send([{name: number},{name: "Mitch"},{name: "Bear"},{name: JSON.stringify(req.params)}]);
+});
+
+router.get('/checkUser', function(req, res){
+	login.find_person_by_id(req.user[0]._id)
+		.then(data => {
+			res.status(200).send(data[0]);
+	});
 });
 
 router.post('/login', passport.authenticate('login'), function(req, res) {

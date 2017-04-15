@@ -71,26 +71,42 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-drawer id="drawer">
         <app-toolbar>Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <template is="dom-if" if="[[!user]]">
+          <template is="dom-if" if="{{!user}}">
 						<a name="login" href="/login">Login</a>
 					</template>
-          <template is="dom-if" if="[[user]]">
+          <template is="dom-if" if="{{user}}">
 						<a name="storage" href="/storage">Storage</a>
 					</template>
-          <template is="dom-if" if="[[user]]">
+          <template is="dom-if" if="{{user}}">
 						<a name="family" href="/family">Family</a>
 					</template>
-					<template is="dom-if" if="[[user]]">
+					<template is="dom-if" if="{{user}}">
 						<a name="budget" href="/budget">Budget</a>
 					</template>
-					<template is="dom-if" if="[[user]]">
+					<template is="dom-if" if="{{user}}">
 						<a name="recipes" href="/recipes">Recipes</a>
 					</template>
-					<template is="dom-if" if="[[user]]">
-						<a name="logout" href="/login">Logout</a>
+					<template is="dom-if" if="{{user}}">
+						<a on-click="deleteUser">Logout</a>
 					</template>
         </iron-selector>
       </app-drawer>
+			
+			<iron-ajax
+              auto 
+              method="get"
+              url="/api/login/checkUser"
+              handle-as="json"
+              content-type="application/x-www-form-urlencoded"
+              on-response="checkUser"></iron-ajax>
+			
+			<iron-ajax
+							id="delete"
+							method="get"
+              url="/logout"
+              handle-as="json"
+              content-type="application/x-www-form-urlencoded"
+              on-response="deleteUser"></iron-ajax>
 
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
@@ -137,7 +153,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       observers: [
         '_routePageChanged(routeData.page)',
-      ],			
+      ],
+			
+			deleteUser: function(){
+				this.$.delete.generateRequest();
+				this.user.value = null;
+				console.log(this.user);
+			},
+			
+			checkUser: function(request){
+				var responseObject = request.detail.response;
+				console.log(responseObject);
+				if(responseObject.user.username.indexOf('!') === -1){
+					var userInfo = { id: responseObject._id, user: responseObject.user.username, storageUnits: responseObject.storageUnits, recipes: responseObject.recipes }
+					this.user = userInfo;
+				}
+				else{
+					this.loginError = responseObject.user.username;
+					this.user = { error: "No user" };
+				}
+			},
 
       _routePageChanged: function(page) {
         this.page = page || 'login';

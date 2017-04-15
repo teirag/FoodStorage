@@ -173,7 +173,7 @@ var email               = require('./controllers/email');
 //        });
 //    }
       
-});
+//});
 
 	
 	
@@ -196,13 +196,15 @@ app.use(cookieParser());
 //keeps track of who is logged in.
 app.use(session({ secret: 'secret key', resave: false, saveUninitialized: true }));
 
+//allow access to static files
+app.use(express.static("www"));
+//app.use(express.static("www/html/Family"));
+
 //runs req, res, and next through middleware (serialize, etc.)
 app.use(passport.initialize());
 app.use(passport.session());
 
-//allow access to static files
-app.use(express.static("www"));
-//app.use(express.static("www/html/Family"));
+
 
 
 
@@ -237,6 +239,13 @@ app.get('/api/recipes', function (req, res) {
 app.get('/api/budget', function (req, res) {
   res.send('Hello World!')
 });
+
+app.get('/logout', function(req, res){
+	req.logout();
+	console.log("bob");
+  res.redirect('/login');
+});
+
 
 
 app.get('*', function(req, res) {

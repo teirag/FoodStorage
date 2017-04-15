@@ -31,67 +31,92 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 
     <div class="card">
-      <iron-ajax
-      auto
-      method="post"
-      url="/api/storage"
-      body="{{storageItem}}"
-      handle-as="json"
-      content-type="application/x-www-form-urlencoded"
-      last-response="{{response}}"></iron-ajax>
-      <p>{{response.name}} | {{response.type}}</p>
-      <!-- <template is="dom-repeat" items="{{response}}">
-        <div class="">
-          <a href="/storage">{{item.name}}</a>
-        </div>
-      </template> -->
-      <h1>{{req.username}}'s Storage</h1>
-      <div class="breakLine" on-tap="showAddUnit">
-        <iron-label>
-          <iron-icon icon="icons:add-circle-outline"></iron-icon>
-          <label for="">Add Storage Unit</label>
-        </iron-label>
-      </div>
-      <div class="breakLine" hidden$="{{hide}}">
-        <label>Item Name</label>
-        <input type="text" name="">
-          <br>
-        <label>Expiration Date</label>
-        <input type="date" name="">
-          <br>
-        <paper-button raised>Add Storage Unit</paper-button>
-    </div>
+				<iron-ajax
+				auto
+				method="post"
+				url="/api/storage"
+				body="{{storageItem}}"
+				handle-as="json"
+				content-type="application/x-www-form-urlencoded"
+				last-response="{{response}}"></iron-ajax>
+				<p>{{response.name}} | {{response.type}}</p>
+				<!-- <template is="dom-repeat" items="{{response}}">
+					<div class="">
+						<a href="/storage">{{item.name}}</a>
+					</div>
+				</template> -->
+				<h1>{{username}}'s Storage</h1>
+				<div class="breakLine" on-tap="showAddUnit">
+					<iron-label>
+						<iron-icon icon="icons:add-circle-outline"></iron-icon>
+						<label for="">Add Storage Unit</label>
+					</iron-label>
+				</div>
+				<div class="breakLine" hidden$="{{hide}}">
+					<label>Item Name</label>
+					<input type="text" name="">
+						<br>
+					<label>Expiration Date</label>
+					<input type="date" name="">
+						<br>
+					<paper-button raised>Add Storage Unit</paper-button>
+			</div>
+		</div>
       <!-- Name <input type="text" name="storageName" value="{{storageName::change}}">
       Type <input type="text" name="storageType" value="{{storageType::change}}"> -->
       <!-- <template is="dom-repeat" items="{{storage}}"> -->
-    <div class="breakLine">
-        <storage-table></storage-table> 
+    <template is="dom-repeat" items="{{storageunits}}" as="storageunit">
+			<div class="card">
+        <storage-table storageunit="{{storageunit}}"></storage-table> 
     </div>
-     <div class="breakLine">
-        <storage-table></storage-table> 
-    </div> 
+		</template>
+
       <!-- </template> -->
 
-    </div>
   </template>
 
   <script>
     Polymer({
-      is: 'my-storage',
+      is: 'my-storage',			
 
       properties: {
-        storageName: {
-          value: 'My-Storage',
-          notify: true
-        },
-        storageType: {
-          value: 'Pantry',
-          notify: true
-        },
-        size: "",
-        storageItem: {
-          computed: 'storeItems(storageName, storageType)'
-        },
+        username: {
+					type: String,
+					notify: true,
+					value: "Mitchell"
+				},
+				storageunits: {
+					type: Array,
+					notify: true,
+					value: [
+							{
+									name: "mystorage1",
+									items: [
+											{
+													name: 'chicken',
+											expdate: "04/20/2017"
+											},
+											{
+													name: 'bread',
+											expdate: "04/12/2017"
+											}
+									]
+							},
+								{
+									name: "mystorage2",
+									items: [
+										{
+											name: "carrot",
+											expdate: "04/27/2017"
+										},
+										{
+											name: "spam",
+											expdate: "04/27/2077"
+										}
+									]
+								}
+					]
+				},
         hide: {
             type: Boolean,
             value: true
