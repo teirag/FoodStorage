@@ -1,9 +1,9 @@
 //just copied from recipe.js, still need to edit
 const express = require('express');
-const people = require('../controller/recipe');
+const recipe = require('../controller/recipe');
 const router = express.Router();
 
-router.post('/', function(req, res){
+router.post('/recipe', function(req, res){
     const person = people.addPerson(req.body);
     res.json(person);
 });
