@@ -243,7 +243,7 @@ app.get('/api/budget', function (req, res) {
 app.get('/logout', function(req, res){
 	req.logout();
 	console.log("bob");
-  res.redirect('/login');
+	res.sendFile('index.html', { root: path.join(__dirname, '../www/') }); 
 });
 
 
