@@ -1,0 +1,73 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-label/iron-label.html">
+<link rel="import" href="./add-storage-item.html">
+
+<dom-module is="recipe-outline">
+  <template>
+    <style>
+      table{
+        width: 50%;
+      }
+      table, th, td {
+        border: solid black 1px;
+      }
+      .center{
+        text-align: center;
+      }
+    </style>
+    <template is="dom-repeat" items="{{recipe}}" as="recipe">
+			<paper-button raised placeholder="Recipe" on-tap="showHidden">Recipe {{recipe.name}}</paper-button>
+			<br><br>
+    	<div hidden$="{{hide}}">
+				<table>
+          <thead>
+            <tr>
+                <th>Ingredient</th>
+                <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+						<template is="dom-repeat" items="{{recipe.ingred}}" as="ingred">
+							<tr>
+								<td class="">{{ingred.name}}</td>
+								<td class="">{{ingred.amount}}</td>
+							</tr>
+						</template>
+          </tbody>
+        </table>
+				<p>{{recipe.instructions}}</p>
+        <br>
+        <add-storage-item></add-storage-item>
+    </div>
+        
+  </template>
+              
+  <script type="text/javascript">
+    Polymer({
+      is: 'recipe-outline',
+      ready: function(){
+        this.recipe = [
+          { "name" : "recipe1",
+					 "ingredients" :
+					 		[ { "name" : "flour", "amount" : "1 cup" },
+							 	{ "name" : "sugar", "amount" : "2 cups" } 
+							],
+					 "instructions" : "bla bla bla" }
+        ];
+      },
+        
+        properties: {
+            hide: {
+                type: Boolean,
+                value: true
+            }
+        },
+        
+        showHidden: function(){
+            this.hide = !this.hide;
+        }
+    });
+
+  </script>
+</dom-module>
