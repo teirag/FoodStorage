@@ -75,6 +75,7 @@ router.post('/', function (req, res) {
 });
 
 router.get('/checkUser', function(req, res){
+	console.log("check");
 	login.find_person_by_id(req.user[0]._id)
 		.then(data => {
 			res.status(200).send(data[0]);

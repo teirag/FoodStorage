@@ -1,0 +1,77 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-label/iron-label.html">
+<link rel="import" href="./add-storage-item.html">
+
+
+<dom-module is="storage-table">
+  <template>
+    <style>
+      table{
+        width: 50%;
+      }
+      table, th, td {
+        border: solid black 1px;
+      }
+      .center{
+        text-align: center;
+      }
+    </style>
+		<h1></h1>
+    <paper-button raised placeholder="Backpack" on-tap="showHidden">{{storageunit.name}}</paper-button>
+    <br><br>
+    <div hidden$="{{hide}}">
+      <table>
+          <thead>
+            <tr>
+                <th>Food</th>
+                <th>Expiration Date</th>
+                <th>Recipes</th>
+            </tr>
+          </thead>
+          <tbody>
+						<template is="dom-repeat" items="{{storageunit.items}}" as="storageItem" index-as="item_no">
+                <tr>
+<!--                  <td class="">{{item_no}}</td>-->
+                  <td class="">{{storageItem.name}}</td>
+                  <td class="">{{storageItem.expdate}}</td>
+                  <td class=""><a href="/recipes">View Recipes</a></td>
+                </tr>
+						</template>
+          </tbody>
+        </table>
+        <br>
+        <add-storage-item></add-storage-item>
+    </div>
+        
+  </template>
+  <script type="text/javascript">
+    Polymer({
+      is: 'storage-table',
+      
+        
+        properties: {
+            hide: {
+                type: Boolean,
+                value: true
+            },
+					
+						storageunit: {
+							type: Object,
+							notify: true
+						},
+						name: {
+							type: Object,
+							notify: true,
+						}
+        },
+        
+        showHidden: function(){
+            this.hide = !this.hide;
+        }
+
+
+    });
+
+  </script>
+</dom-module>

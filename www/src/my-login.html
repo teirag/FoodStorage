@@ -15,7 +15,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-spinner/paper-spinner.html">
-<link rel="import" href="../bower_components/custom/storage-table.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -116,11 +115,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			
 			setAjax: function(){
          this.$.ajax.generateRequest();
+				console.log("setAjax");
 			},
 			
 			loginResponse: function(request){
 				var responseObject = request.detail.response;
-				console.log(responseObject);
+				console.log("loginResponse");
 				if(request.detail.response.user.username.indexOf('!') === -1){
 					var userInfo = { id: responseObject._id, user: responseObject.user.username, storageUnits: responseObject.storageUnits, recipes: responseObject.recipes }
 					this.user = userInfo;

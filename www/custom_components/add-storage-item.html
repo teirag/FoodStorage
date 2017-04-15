@@ -1,0 +1,48 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../iron-label/iron-label.html">
+<link rel="import" href="../paper-button/paper-button.html">
+
+<dom-module is="add-storage-item">
+  <template>
+    <style>
+
+    </style>
+    <div on-tap="toggleItem">
+      <iron-label>
+          <iron-icon icon="icons:add-circle-outline"></iron-icon> <span>Add item to storage</span>
+        </iron-label>
+    </div>
+        
+        <br>
+    <div hidden$="{{hide}}">
+        <label>Item Name</label>
+        <input type="text" name="">
+          <br>
+        <label>Expiration Date</label>
+        <input type="date" name="">
+          <br>
+        <paper-button raised>Add Item to Storage</paper-button>
+    </div>
+  </template>
+  <script type="text/javascript">
+    Polymer({
+      is: 'add-storage-item',
+        
+        properties: {
+            hide: {
+                type: Boolean,
+                value: true
+            }
+        },
+        
+        toggleItem: function(){
+            this.hide = !this.hide;
+        }
+
+
+
+    });
+      
+  </script>
+</dom-module>

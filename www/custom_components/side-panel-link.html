@@ -1,0 +1,53 @@
+
+
+<dom-module is="storage-table">
+  <template>
+    <style>
+      table{
+        width: 50%;
+      }
+      table, th, td {
+        border: solid black 1px;
+      }
+      .center{
+        text-align: center;
+      }
+    </style>
+		<template is="dom-repeat" items="">
+			<a name="{{name}}" href="{{href}}">{{name}}</a>
+		</template>
+        
+  </template>
+  <script type="text/javascript">
+    Polymer({
+      is: 'storage-table',
+      ready: function(){
+        this.food = [
+          {name: 'carrot', expDate: 'vegetable', url: 'www.bob.bla'},
+          {name: 'apple', expDate: 'fruit', url: 'www.bob.bla'},
+          {name: 'chicken', expDate: 'poultry', url: 'www.bob.bla'}
+        ];
+      },
+        
+        properties: {
+            lock: {
+                type: Boolean,
+                value: true
+            },
+						name: {
+							type: String
+						},
+						href: {
+							
+						}
+        },
+        
+        showHidden: function(){
+            this.hide = !this.hide;
+        }
+
+
+    });
+
+  </script>
+</dom-module>

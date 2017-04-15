@@ -158,12 +158,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			deleteUser: function(){
 				this.$.delete.generateRequest();
 				this.user.value = null;
-				console.log(this.user);
+				console.log("deleteUser");
 			},
 			
 			checkUser: function(request){
 				var responseObject = request.detail.response;
-				console.log(responseObject);
+				console.log("checkUser");
 				if(responseObject.user.username.indexOf('!') === -1){
 					var userInfo = { id: responseObject._id, user: responseObject.user.username, storageUnits: responseObject.storageUnits, recipes: responseObject.recipes }
 					this.user = userInfo;

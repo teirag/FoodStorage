@@ -249,7 +249,7 @@ app.get('/logout', function(req, res){
 
 
 app.get('*', function(req, res) {
-    res.sendFile('index.html', { root: path.join(__dirname, '../www/') }); 
+	res.sendFile('index.html', { root: path.join(__dirname, '../www/') }); 
 });
 
 app.listen(3000, function() {
