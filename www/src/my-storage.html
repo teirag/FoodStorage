@@ -32,14 +32,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <div class="card">
 				<iron-ajax
-				auto
+				id="send_storage"
 				method="post"
-				url="/api/storage"
-				body="{{storageItem}}"
+				url="/api/storage/add_storage_unit"
+				body="{{storage_unit}}"
 				handle-as="json"
 				content-type="application/x-www-form-urlencoded"
 				last-response="{{response}}"></iron-ajax>
-				<p>{{response.name}} | {{response.type}}</p>
+				<p>{{response}} | {{storage_unit}}</p>
 				<!-- <template is="dom-repeat" items="{{response}}">
 					<div class="">
 						<a href="/storage">{{item.name}}</a>
@@ -49,17 +49,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 				<div class="breakLine" on-tap="showAddUnit">
 					<iron-label>
 						<iron-icon icon="icons:add-circle-outline"></iron-icon>
-						<label for="">Add Storage Unit</label>
+						<label for="">Add New Storage Unit</label>
 					</iron-label>
 				</div>
 				<div class="breakLine" hidden$="{{hide}}">
-					<label>Item Name</label>
-					<input type="text" name="">
+					<label>Storage Unit Name</label>
+					<input type="text" name="storageunit" value="{{storage_input::change}}">
 						<br>
-					<label>Expiration Date</label>
-					<input type="date" name="">
 						<br>
-					<paper-button raised>Add Storage Unit</paper-button>
+					<paper-button id="submit" raised>Add Storage Unit</paper-button>
 			</div>
 		</div>
       <!-- Name <input type="text" name="storageName" value="{{storageName::change}}">
@@ -83,53 +81,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         username: {
 					type: String,
 					notify: true,
-					value: "Mitchell"
 				},
 				storageunits: {
 					type: Array,
-					notify: true,
-					value: [
-							{
-									name: "mystorage1",
-									items: [
-											{
-													name: 'chicken',
-											expdate: "04/20/2017"
-											},
-											{
-													name: 'bread',
-											expdate: "04/12/2017"
-											}
-									]
-							},
-								{
-									name: "mystorage2",
-									items: [
-										{
-											name: "carrot",
-											expdate: "04/27/2017"
-										},
-										{
-											name: "spam",
-											expdate: "04/27/2077"
-										}
-									]
-								}
-					]
+					notify: true
 				},
         hide: {
             type: Boolean,
             value: true
-        }
+        },
+				storage_input: '',
+				storage_unit: {
+					computed: 'compute_storage(storage_input)'
+				},
         
       },
+			
+			listeners: {
+				'submit.tap': 'send_storage'
+			},
+			
+			send_storage: function(){
+				this.$.send_storage.generateRequest();
+			},
+			
+			compute_storage: function(storage_input){
+				return { "storage_unit": storage_input }
+			},
+			
 
       showAddUnit: function(){
         this.hide = !this.hide;  
-      },
-
-      storeItems: function(storageName, storageType){
-        return { name: storageName, type: storageType };
       }
     });
   </script>

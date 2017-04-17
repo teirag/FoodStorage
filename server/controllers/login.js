@@ -16,56 +16,57 @@ exports.addItem = function(title, description)
         });
 };
 
-exports.addPerson = function(username, password) {
+exports.addPerson = function(registerInfo) {
   var userdata = {
-      'username': username,
-      'password': password
+      'username': registerInfo.username,
+			'email'   : registerInfo.email,
+      'password': registerInfo.password
   };
     
     var storagedata = [
-        {
-            name: "mystorage1",
-            items: [
-                {
-                    name: 'chicken',
-										expdate: "04/20/2017"
-                },
-                {
-                    name: 'bread',
-										expdate: "04/12/2017"
-                }
-            ]
-        },
-					{
-						name: "mystorage2",
-						items: [
-							{
-								name: "carrot",
-								expdate: "04/27/2017"
-							},
-							{
-								name: "spam",
-								expdate: "04/27/2077"
-							}
-						]
-					}
+//        {
+//            name: "Dietetics Backpack",
+//            items: [
+//                {
+//                    name: 'chicken',
+//										expdate: "04/17/2017"
+//                },
+//                {
+//                    name: 'soup',
+//										expdate: "04/12/2017"
+//                }
+//            ]
+//        },
+//					{
+//						name: "Dietetics Lab Shelf",
+//						items: [
+//							{
+//								name: "Fish",
+//								expdate: "05/09/2017"
+//							},
+//							{
+//								name: "I love you...but that's not expiring",
+//								expdate: "04/27/2077"
+//							}
+//						]
+//					}
     ];
     
     var recipedata = [
-        {
-            name: "recipe1",
-            ingredients: [
-							{ name: 'flour', amount: '1 cup'}, { name: 'sugar', amount: '2 cups'}
-						],
-            instructions: "bla bla bla"
-        },
-			{
-            name: "recipe2",
-            ingredients: [
-							{ name: 'flour', amount: '5 cups'}, { name: 'sugar', amount: '6 cups'}
-						],
-            instructions: "bla bla bla"
-        }
+//        {
+//            name: "recipe1",
+//            ingredients: [
+//							{ name: 'flour', amount: '1 cup'}, { name: 'sugar', amount: '2 cups'}
+//						],
+//            instructions: "bla bla bla"
+//        },
+//			{
+//            name: "recipe2",
+//            ingredients: [
+//							{ name: 'flour', amount: '5 cups'}, { name: 'sugar', amount: '6 cups'}
+//						],
+//            instructions: "bla bla bla"
+//        }
     ];
     
 
@@ -75,7 +76,7 @@ exports.addPerson = function(username, password) {
         var col = db.collection('users');
         return col.insert({ user: userdata, storageUnits: storagedata, recipes: recipedata });//returns a promise
       });
-}
+};
 
 exports.find_person_by_id = function(id){
 		return dbPromise
@@ -94,4 +95,4 @@ exports.findPerson = function(username, password) {
         var col = db.collection('users'); //send 
         return col.find({"user.username":username, "user.password":password }).toArray();//returns a promise
       });
-}
+};

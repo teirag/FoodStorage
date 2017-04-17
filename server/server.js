@@ -7,6 +7,7 @@ var passport            = require('passport');
 var session             = require('express-session');
 var path                = require('path');
 const loginRouter       = require('./routes/login');
+const storageRouter     = require('./routes/storage')
 // const emailRouter      = require('./routes/email');
 
 var app = express();
@@ -27,7 +28,7 @@ var email               = require('./controllers/email');
 
 
 //mails specified email every minute
-//cron.schedule('5 * * * *', function(){
+//cron.schedule('* 3 * * * *', function(){
 //    
 //    var d = new Date(); //today's date
 //		var maxDistance = 30;
@@ -50,7 +51,7 @@ var email               = require('./controllers/email');
 //							}
 //						}
 //					
-//					let userEmail = 'sottochoro@gmail.com';
+//					let userEmail = dbResult[i].user.email;
 //					let to = userEmail;
 //					let from = '"ストーレジ 👻" <sottochoro@gmail.com>';
 //					let subject = 'Your Food will expire soon! ✔';	
@@ -99,7 +100,7 @@ var email               = require('./controllers/email');
 //								service: 'gmail',
 //								auth: {
 //										user: 'sottochoro@gmail.com',
-//										pass: ''
+//										pass: 'Mitcheri22go'
 //								},
 //								tls: {
 //										rejectUnauthorized: false
@@ -125,54 +126,7 @@ var email               = require('./controllers/email');
 //
 //					}
 //				}
-//			});
-					
-					
-					
-					
-					
-					
-	
-    
-
-//    }
-//    else if(diffDays == 0){
-//        let subject = 'Hello ✔';
-//        let html = '<p>The '+food+' in your <a href='+site+'>'+unit+'</a> has reached its expiration date.</p>';
-//        
-//      // create reusable transporter object using the default SMTP transport
-//			let transporter = nodemailer.createTransport(smtpTransport({
-//		
-	
-	
-//	service: 'gmail',
-//					auth: {
-//							user: 'sottochoro@gmail.com',
-//							pass: 'Mitcheri22go'
-//					},
-//					tls: {
-//							rejectUnauthorized: false
-//					}
-//			}));  
-//			
-//			// setup email data with unicode symbols
-//        let mailOptions = {
-//            from: from, // sender address
-//            to: to, // list of receivers
-//            subject: subject, // Subject line
-//            //text: 'Hello world ?', // plain text body
-//            html: html // html body
-//        };
-//
-//        // send mail with defined transport object
-//        transporter.sendMail(mailOptions, (error, info) => {
-//            if (error) {
-//                return console.log(error);
-//            }
-//            console.log('Message %s sent: %s', info.messageId, info.response);
-//        });
-//    }
-      
+//			});      
 //});
 
 	
@@ -224,9 +178,7 @@ app.get('/api/', function (req, res) {
 
 app.use('/api/login', loginRouter);
 
-app.post('/api/storage', function (req, res) {
-  res.status(200).send(req.body);
-});
+app.use('/api/storage', storageRouter);
 
 app.get('/api/family', function (req, res) {
     res.sendFile(path.join(__dirname, '../www/html/Family/', 'family.html'));
@@ -242,8 +194,9 @@ app.get('/api/budget', function (req, res) {
 
 app.get('/logout', function(req, res){
 	req.logout();
-	console.log("bob");
-	res.sendFile('index.html', { root: path.join(__dirname, '../www/') }); 
+	res.redirect('/');
+	//	req.session.destroy(function(){
+//	});
 });
 
 

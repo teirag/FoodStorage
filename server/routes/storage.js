@@ -1,11 +1,18 @@
 //just copied from recipe.js, still need to edit
 const express = require('express');
-const people = require('../controller/people');
+const storage = require('../controllers/storage');
 const router = express.Router();
 
-router.post('/', function(req, res){
-    const person = people.addPerson(req.body);
-    res.json(person);
+router.post('/add_storage_unit', function(req, res){
+//	console.log(req.body);
+	storage.add_storage_unit(req.user[0].user.username, req.user[0].user.password, req.body.storage_unit)
+			.then(data => {
+			console.log(data);
+				res.sendStatus(200);
+			})
+			.catch(err => {
+			console.log(err);
+			});
 });
 
 router.get('/', function(req, res){
