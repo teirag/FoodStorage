@@ -14,43 +14,42 @@
 
             padding: 16px;
           }
-            .breakLine{
-        border-bottom: black solid 2px;
-        margin-bottom: 10px;
-      }
+					.breakLine{
+						border-bottom: black solid 2px;
+						margin-bottom: 10px;
+					}
         </style>
         <div class="card">
           <!-- put all code within this card div -->
             <iron-ajax
-              auto
+              id="add_recipe"
               method="post"
-              url="/api/recipe"
+              url="/api/recipe/"
               body="{{recipe}}"
               handle-as="json"
               content-type="application/x-www-form-urlencoded"
               last-response="{{response}}"></iron-ajax>
-            <p>{{response.name}} | {{response.type}}</p>
-            <h1>{{req.username}}'s Recipes</h1>
+            <h1>{{username}}'s Recipes</h1>
             <div class="breakLine" on-tap="showAddRecipe">
-                <iron-label>
-                  <iron-icon icon="icons:add-circle-outline"></iron-icon>
-                  <label for="">Add Recipe</label>
-                </iron-label>
-              </div>
+							<iron-label>
+								<iron-icon icon="icons:add-circle-outline"></iron-icon>
+								<label for="">Add Recipe</label>
+							</iron-label>
+						</div>
             <div class="breakLine" hidden$="{{hide}}">
                 <label>Recipe Name</label>
                 <input type="text" name="">
                   <br>
                 <label>Ingredient</label>
-                <input type="text" name="">
+                <input id="store" type="text" name="" value="">
                   <br>
+							<p>{{ingredList}}</p>
                 <label>Instructions</label>
                 <input type="text" name="">
                   <br>
-							<iron-label>
-                  <iron-icon icon="icons:add-circle-outline"></iron-icon>
-                  <label for="">Add Recipe</label>
-                </iron-label>           
+							<script>
+								console.log("hi");</script>
+							<paper-button id="submit" raised>Add Recipe</paper-button>         
 					</div>
 					<template is="dom-repeat" items="{{recipes}}" as="recipe">
 					<div class="card">
@@ -65,35 +64,85 @@
 				is: "my-recipes",
 
 				properties: {
+					 username: {
+						type: String,
+						notify: true,
+					},
 					hide: {
             type: Boolean,
             value: true
 					},
+					ingredArray: {
+						type: Array,
+						value: [],
+						notify: true
+					},
+					ingredList: {
+						type: String,
+						value: ""
+					},
 					recipes: {
 						type: Array,
-						notify: true,
-						value: [
-							{ "name" : "recipe1",
-							 "ingredients" :
-									[ 
-										{ "name" : "flour", "amount" : "1 cup" },
-										{ "name" : "sugar", "amount" : "2 cups" } 
-									],
-							 "instructions" : "bla bla bla" },
-							{ "name" : "recipe2",
-							 "ingredients" :
-									[ 
-										{ "name" : "flour", "amount" : "2 cup" },
-										{ "name" : "sugar", "amount" : "5 cups" } 
-									],
-							 "instructions" : "hi bla bla" }
-        			]
+						notify: true
+//						value: [
+//							{ "name" : "recipe1",
+//							 "ingredients" :
+//									[ 
+//										{ "name" : "flour", "amount" : "1 cup" },
+//										{ "name" : "sugar", "amount" : "2 cups" } 
+//									],
+//							 "instructions" : "bla bla bla" },
+//							{ "name" : "recipe2",
+//							 "ingredients" :
+//									[ 
+//										{ "name" : "flour", "amount" : "2 cup" },
+//										{ "name" : "sugar", "amount" : "5 cups" } 
+//									],
+//							 "instructions" : "hi bla bla" }
+//        			]
 					}
         },
-
+				
+				listeners: {
+					'submit.tap': 'add_recipe',
+					'store.keypress': 'add_ingred'
+				},
+				
+				add_ingred: function(e) {
+					if (e.which == 13)
+					{
+						// add ingredient to list for display on page
+						if (this.ingredList == "")
+						{
+							this.ingredList += this.$.store.value;
+						}
+						else
+						{
+							this.ingredList += "\n\r" + this.$.store.value;	
+						}
+						console.log(this.ingredList + " hi");
+						//parse the string by commas, then space
+						var amountAndIngred = this.$.store.value.split(" ");
+						console.log(amountAndIngred);
+						//create object
+						var my_object = {"name": amountAndIngred[2], "amount": amountAndIngred[0] + " " + amountAndIngred[1]};
+						console.log(my_object);
+						//push object into array
+						this.ingredArray.push(my_object);
+						console.log(this.ingredArray);
+						this.$.store.value = "";
+					}
+				},
+				
+				add_recipe: function() {
+					console.log("boo");
+				},
+				
 			 showAddRecipe: function(){
 					this.hide = !this.hide;  
-				}
+				},
+				
+				
 //
 //				storeItems: function(storageName, storageType){
 //					return { name: storageName, type: storageType };

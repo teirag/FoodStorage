@@ -1,9 +1,6 @@
-
 const dbPromise = require('../database');
 
-
-//ingredients needs to be an array of the ingredients with embedded documents that contain the ingredient name and amount
-exports.addRecipe = function(title, instructions, ingredients)
+exports.addRecipe = function(username, title, ingredients, instructions)
 {
     const title = {
         'title': title,
@@ -14,7 +11,12 @@ exports.addRecipe = function(title, instructions, ingredients)
     return dbPromise
         .then(db => {
           // Get the collection
-          var col = db.collection(username);
-          return col.insertOne(o);//returns a promise
+          var col = db.collection('users');
+					return col.update(
+						{"user.username": username},{$push: {recipes: {"name": title, "ingredients", ingredients, "instructions": instructions}}
+						}
+					);
         });
 }; 
+
+//db.users.update({"user.username":"Mitchell"},{$push: {storageUnits: {"name": "new", "items":[]}}})

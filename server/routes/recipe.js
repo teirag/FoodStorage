@@ -4,7 +4,8 @@ const recipe = require('../controller/recipe');
 const router = express.Router();
 
 router.post('/recipe', function(req, res){
-    const person = people.addPerson(req.body);
+	
+    const person = people.addRecipe(req.body);
     res.json(person);
 });
 
