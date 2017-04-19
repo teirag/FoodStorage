@@ -5,9 +5,19 @@ const router = express.Router();
 
 router.post('/add_new_recipe', function(req, res){
 	console.log("router hi boo");
-	console.log("body " + req.body.name + " " + req.body.ingredients + " " + req.body.instructions);
+	//console.log("array " + req.body.ingredients[0].name + " " + req.body.ingredients[0].amount);
 	recipe.add_new_recipe(req.user[0].user.username, req.body)
 		.then(data => {
+						login.findPerson(req.user[0].user.username, req.user[0].user.password)
+						.then(result => {
+							if(result){
+								res.status(200).send(result);
+							}
+						})
+						.catch(err => {
+						
+					});
+
 			//console.log(data);
 			res.sendStatus(200);
 		})

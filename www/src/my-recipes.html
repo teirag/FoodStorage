@@ -25,7 +25,7 @@
               id="add_recipe"
               method="post"
               url="/api/recipe/add_new_recipe"
-              body="{{new_recipe}}"
+              body="{ 'name': {{rec_name}}, 'ingredients': {{ingredArray}}, 'instructions': {{rec_instruct}}}"
               handle-as="json"
               content-type="application/x-www-form-urlencoded"
               on-response="updateUser"></iron-ajax>
