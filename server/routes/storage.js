@@ -27,17 +27,17 @@ router.post('/add_storage_unit', function(req, res){
 			});
 });
 
-router.get('/', function(req, res){
-    people.getPeople()
-        .then(result => {
-            // format result for return http data
-            res.json(result);
-        })
-   res.json(people.getPeople()).then;
-});
-
-router.put('/:personId', function(req, res){
-    res.json(people.setPerson(req.params.personId, req.body));
-});
+//router.get('/', function(req, res){
+//    people.getPeople()
+//        .then(result => {
+//            // format result for return http data
+//            res.json(result);
+//        })
+//   res.json(people.getPeople()).then;
+//});
+//
+//router.put('/:personId', function(req, res){
+//    res.json(people.setPerson(req.params.personId, req.body));
+//});
 
 module.exports = router;
