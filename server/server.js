@@ -7,7 +7,8 @@ var passport            = require('passport');
 var session             = require('express-session');
 var path                = require('path');
 const loginRouter       = require('./routes/login');
-const storageRouter     = require('./routes/storage')
+const storageRouter     = require('./routes/storage');
+const recipeRouter			= require('./routes/recipe');
 // const emailRouter      = require('./routes/email');
 
 var app = express();
@@ -183,9 +184,7 @@ app.get('/api/family', function (req, res) {
     res.sendFile(path.join(__dirname, '../www/html/Family/', 'family.html'));
 });
 
-app.get('/api/recipes', function (req, res) {
-  res.send('Hello World!')
-});
+app.use('/api/recipe', recipeRouter);
 
 app.get('/api/budget', function (req, res) {
   res.send('Hello World!')

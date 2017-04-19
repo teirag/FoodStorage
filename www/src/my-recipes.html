@@ -24,8 +24,8 @@
             <iron-ajax
               id="add_recipe"
               method="post"
-              url="/api/recipe/"
-              body="{{recipe}}"
+              url="/api/recipe/add_new_recipe"
+              body="{{new_recipe}}"
               handle-as="json"
               content-type="application/x-www-form-urlencoded"
               last-response="{{response}}"></iron-ajax>
@@ -38,14 +38,14 @@
 						</div>
             <div class="breakLine" hidden$="{{hide}}">
                 <label>Recipe Name</label>
-                <input type="text" name="">
+                <input id="rec_name" type="text" name="rec_name" value"{{rec_name::change}}">
                   <br>
                 <label>Ingredient</label>
                 <input id="store" type="text" name="" value="">
                   <br>
 							<p>{{ingredList}}</p>
                 <label>Instructions</label>
-                <input type="text" name="">
+                <input id="rec_instruct" type="text" name="rec_instruct" value="{{rec_instruct::change}}">
                   <br>
 							<script>
 								console.log("hi");</script>
@@ -81,25 +81,14 @@
 						type: String,
 						value: ""
 					},
+					rec_name: '',
+					rec_instruct: '',
+					new_recipe: {
+						computed: 'compute_recipe(rec_name, ingredArray, rec_instruct)'
+					},
 					recipes: {
 						type: Array,
 						notify: true
-//						value: [
-//							{ "name" : "recipe1",
-//							 "ingredients" :
-//									[ 
-//										{ "name" : "flour", "amount" : "1 cup" },
-//										{ "name" : "sugar", "amount" : "2 cups" } 
-//									],
-//							 "instructions" : "bla bla bla" },
-//							{ "name" : "recipe2",
-//							 "ingredients" :
-//									[ 
-//										{ "name" : "flour", "amount" : "2 cup" },
-//										{ "name" : "sugar", "amount" : "5 cups" } 
-//									],
-//							 "instructions" : "hi bla bla" }
-//        			]
 					}
         },
 				
@@ -120,22 +109,30 @@
 						{
 							this.ingredList += "\n\r" + this.$.store.value;	
 						}
-						console.log(this.ingredList + " hi");
+						//console.log(this.ingredList + " hi");
 						//parse the string by commas, then space
 						var amountAndIngred = this.$.store.value.split(" ");
-						console.log(amountAndIngred);
+						//console.log(amountAndIngred);
 						//create object
 						var my_object = {"name": amountAndIngred[2], "amount": amountAndIngred[0] + " " + amountAndIngred[1]};
-						console.log(my_object);
+						//console.log(my_object);
 						//push object into array
 						this.ingredArray.push(my_object);
-						console.log(this.ingredArray);
+						//console.log(this.ingredArray);
 						this.$.store.value = "";
 					}
 				},
 				
 				add_recipe: function() {
-					console.log("boo");
+					console.log("generate"); 
+					this.$.add_recipe.generateRequest();
+				},
+				
+				compute_recipe: function(rec_name, ingredArray, rec_instruct) {
+					console.log(rec_name);
+					console.log(ingredArray);
+					console.log(rec_instruct);
+					return { "name": rec_name, "ingredients": ingredArray, "instructions": rec_instruct}
 				},
 				
 			 showAddRecipe: function(){
