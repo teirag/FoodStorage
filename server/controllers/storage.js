@@ -26,14 +26,14 @@ exports.add_storage_unit = function(username, password, unit_name)
           return col.update({"user.username":username}, {$push: {storageUnits: {"name":unit_name,"items":[]}}});
         });
 }; 
-
-exports.getStorage = function(username, password, unit_name)
-{
-
-	return dbPromise
-        .then(db => {
-          // Get the collection
-          var col = db.collection('users');
-          return col.update({"user.username":username}, {$push: {storageUnits: {"name":unit_name,"items":[]}}});
-        });
-}; 
+//
+//exports.getStorage = function(username, password, unit_name)
+//{
+//
+//	return dbPromise
+//        .then(db => {
+//          // Get the collection
+//          var col = db.collection('users');
+//          return col.update({"user.username":username}, {$push: {storageUnits: {"name":unit_name,"items":[]}}});
+//        });
+//}; 

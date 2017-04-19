@@ -1,6 +1,7 @@
 //just copied from recipe.js, still need to edit
 const express = require('express');
 const storage = require('../controllers/storage');
+const login = require('../controllers/login');
 const router = express.Router();
 
 router.post('/add_storage_item', function(req, res){
@@ -8,10 +9,10 @@ router.post('/add_storage_item', function(req, res){
 	storage.add_storage_item(req.user[0].user.username, req.user[0].user.password, req.body)
 			.then(data => {
 			if(data){
-					storage.get_storage()
+					login.findPerson(req.user[0].user.username, req.user[0].user.password)
 						.then(result => {
 							if(result){
-								res.status(200).send();
+								res.status(200).send(result);
 							}
 						})
 						.catch(err => {
@@ -29,7 +30,15 @@ router.post('/add_storage_unit', function(req, res){
 //	console.log(req.body);
 	storage.add_storage_unit(req.user[0].user.username, req.user[0].user.password, req.body.storage_unit)
 			.then(data => {
-				res.sendStatus(200);
+				login.findPerson(req.user[0].user.username, req.user[0].user.password)
+						.then(result => {
+							if(result){
+								res.status(200).send(result);
+							}
+						})
+						.catch(err => {
+						
+					});
 			})
 			.catch(err => {
 			});

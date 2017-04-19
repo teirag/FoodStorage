@@ -38,7 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 				body="{{storage_unit}}"
 				handle-as="json"
 				content-type="application/x-www-form-urlencoded"
-				last-response="{{response}}"></iron-ajax>
+				on-response="updateUser"></iron-ajax>
 <!--				<p>{{response}} | {{storage_unit}}</p>-->
 				<!-- <template is="dom-repeat" items="{{response}}">
 					<div class="">
@@ -115,7 +115,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			
       showAddUnit: function(){
         this.hide = !this.hide;  
-      }
+      },
+			
+			updateUser: function(request){
+				console.log(request.detail.response[0]);
+				this.user = request.detail.response[0];
+			}
     });
   </script>
 </dom-module>
