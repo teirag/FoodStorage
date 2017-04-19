@@ -38,7 +38,7 @@
 						</div>
             <div class="breakLine" hidden$="{{hide}}">
                 <label>Recipe Name</label>
-                <input id="rec_name" type="text" name="rec_name" value"{{rec_name::change}}">
+                <input type="text" name="rec_name" value"{{rec_name::change}}">
                   <br>
                 <label>Ingredient</label>
                 <input id="store" type="text" name="" value="">
@@ -124,7 +124,11 @@
 				},
 				
 				add_recipe: function() {
-					console.log("generate"); 
+					console.log("generate");
+					//console.log(rec_name);
+					//console.log(ingredArray);
+					//console.log(rec_instruct);
+					//console.log(new_recipe);
 					this.$.add_recipe.generateRequest();
 				},
 				
