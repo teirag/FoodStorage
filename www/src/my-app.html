@@ -131,7 +131,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             fallback-selection="view404"
             role="main">
 						<my-login id="login" name="login" user="{{user}}"></my-login>
-						<my-register id="register" name="register" user="{{user}}"></my-register>
+						<my-register id="register" name="register" username="{{user.user.username}}" user="{{user}}"></my-register>
 						<my-storage name="storage" username="{{user.user.username}}" storageunits="{{user.storageUnits}}" user="{{user}}"></my-storage>
 						<my-family name="family"></my-family>
 						<my-budget name="budget"></my-budget>

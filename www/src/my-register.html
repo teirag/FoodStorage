@@ -127,7 +127,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 //				console.log(responseObject);
 				if(request.detail.response._id !== 1){
 					var userInfo = { id: responseObject._id, user: responseObject.user.username, storageUnits: responseObject.storageUnits, recipes: responseObject.recipes }
-					this.user = userInfo;
+					this.user = responseObject;
 					this.username = '';
 					this.email = '';
 					this.password = '';
