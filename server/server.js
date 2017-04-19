@@ -28,7 +28,7 @@ var email               = require('./controllers/email');
 
 
 //mails specified email every minute
-cron.schedule('* 3 * * * *', function(){
+cron.schedule('5 * * * * *', function(){
     
     var d = new Date(); //today's date
 		var maxDistance = 30;
@@ -44,7 +44,6 @@ cron.schedule('* 3 * * * *', function(){
 								var expdate = new Date(dbResult[i].storageUnits[j].items[k].expdate + 'Z');
 								var timeDiff = Math.abs(expdate - d);
 								const diffDays = Math.round(timeDiff / (1000 * 3600 * 24));
-								
     						if(diffDays < maxDistance && diffDays > 0){
 									expiringFood.push({item: dbResult[i].storageUnits[j].items[k].name, expire_in: diffDays, storage_place: dbResult[i].storageUnits[j].name })
 								}
