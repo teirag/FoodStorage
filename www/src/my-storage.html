@@ -39,7 +39,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 				handle-as="json"
 				content-type="application/x-www-form-urlencoded"
 				last-response="{{response}}"></iron-ajax>
-				<p>{{response}} | {{storage_unit}}</p>
+<!--				<p>{{response}} | {{storage_unit}}</p>-->
 				<!-- <template is="dom-repeat" items="{{response}}">
 					<div class="">
 						<a href="/storage">{{item.name}}</a>
@@ -65,7 +65,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <!-- <template is="dom-repeat" items="{{storage}}"> -->
     <template is="dom-repeat" items="{{storageunits}}" as="storageunit">
 			<div class="card">
-        <storage-table storageunit="{{storageunit}}"></storage-table> 
+        <storage-table user="{{user}}" storageunit="{{storageunit}}"></storage-table> 
     </div>
 		</template>
 
@@ -94,6 +94,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 				storage_unit: {
 					computed: 'compute_storage(storage_input)'
 				},
+				user: {
+					type: Object,
+					notify: true
+				}
         
       },
 			
