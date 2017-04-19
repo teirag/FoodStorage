@@ -22,7 +22,7 @@ router.post('/add_storage_item', function(req, res){
 				 }
 			})
 			.catch(err => {
-			console.log(err);
+//			console.log(err);
 			});
 });
 

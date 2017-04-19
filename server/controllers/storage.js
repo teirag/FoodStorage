@@ -5,7 +5,7 @@ const dbPromise = require('../database');
 exports.add_storage_item = function(username, password, item_info){
 	return dbPromise
 		.then(db => {
-			console.log(item_info);
+//			console.log(item_info);
 			var item = item_info.name;
 			var expdate = item_info.expdate;
 			var object = {"name":item,"expdate":expdate};

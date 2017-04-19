@@ -118,8 +118,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 			
 			updateUser: function(request){
-				console.log(request.detail.response[0]);
+//				console.log(request.detail.response[0]);
 				this.user = request.detail.response[0];
+				this.storage_input = '';
+				this.hide = true;
 			}
     });
   </script>

@@ -29,28 +29,35 @@ var email               = require('./controllers/email');
 
 
 //mails specified email every minute
-cron.schedule('* 50 * * * *', function(){
+var task = cron.schedule('30 * * * * *', function(){
     
     var d = new Date(); //today's date
 		var maxDistance = 30;
-	
+		console.log("In the mailer");
 		//get each user, check to see if today is 1 month before any expiration dates, send email to their email if it is.
 		email.getAllUsers()
 			.then(dbResult => {
-				if(dbResult){
+			console.log("storage units");
+			console.log(dbResult[0].storageUnits);
+				if(dbResult[0].user){
 					for(let i = 0; i < dbResult.length; i++){
+						if(dbResult[i].storageUnits.length !== 0){
 						var expiringFood = [];
 						for(let j = 0; j < dbResult[i].storageUnits.length; j++){
-							for(let k = 0; k < dbResult[i].storageUnits[j].items.length; k++){
-								var expdate = new Date(dbResult[i].storageUnits[j].items[k].expdate + 'Z');
-								var timeDiff = Math.abs(expdate - d);
-								const diffDays = Math.round(timeDiff / (1000 * 3600 * 24));
-    						if(diffDays < maxDistance && diffDays > 0){
-									expiringFood.push({item: dbResult[i].storageUnits[j].items[k].name, expire_in: diffDays, storage_place: dbResult[i].storageUnits[j].name })
+							if(dbResult[i].storageUnits[j].items.length !== 0){
+								for(let k = 0; k < dbResult[i].storageUnits[j].items.length; k++){
+									var expdate = new Date(dbResult[i].storageUnits[j].items[k].expdate + 'Z');
+									var timeDiff = Math.abs(expdate - d);
+									const diffDays = Math.round(timeDiff / (1000 * 3600 * 24));
+									if(diffDays < maxDistance && diffDays > 0){
+										expiringFood.push({item: dbResult[i].storageUnits[j].items[k].name, expire_in: diffDays, storage_place: dbResult[i].storageUnits[j].name })
+									}
 								}
 							}
 						}
-					
+					console.log("expiring food array");
+					console.log(expiringFood);
+					if(expiringFood.length !== 0){
 					let userEmail = dbResult[i].user.email;
 					let to = userEmail;
 					let from = '"ストーレジ 👻" <sottochoro@gmail.com>';
@@ -123,13 +130,21 @@ cron.schedule('* 50 * * * *', function(){
 									}
 									console.log('Message %s sent: %s', info.messageId, info.response);
 							});
-
+						
+						
+						
+						}
+						}
 					}
+					
+					
+					
+					
 				}
 			});      
 });
-
-	
+console.log("bob");
+task.start();
 	
 
 

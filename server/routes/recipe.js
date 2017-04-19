@@ -4,26 +4,27 @@ const recipe = require('../controllers/recipe');
 const router = express.Router();
 
 router.post('/add_new_recipe', function(req, res){
-	console.log("router hi boo");
+	console.log(req.body);
+	console.log(JSON.parse(req.body.ingredients));
 	//console.log("array " + req.body.ingredients[0].name + " " + req.body.ingredients[0].amount);
-	recipe.add_new_recipe(req.user[0].user.username, req.body)
-		.then(data => {
-						login.findPerson(req.user[0].user.username, req.user[0].user.password)
-						.then(result => {
-							if(result){
-								res.status(200).send(result);
-							}
-						})
-						.catch(err => {
-						
-					});
-
-			//console.log(data);
-			res.sendStatus(200);
-		})
-	.catch(err => {
-		//console.log(err);
-	})
+//	recipe.add_new_recipe(req.user[0].user.username, req.body)
+//		.then(data => {
+//						login.findPerson(req.user[0].user.username, req.user[0].user.password)
+//						.then(result => {
+//							if(result){
+//								res.status(200).send(result);
+//							}
+//						})
+//						.catch(err => {
+//						
+//					});
+//
+//			//console.log(data);
+//			res.sendStatus(200);
+//		})
+//	.catch(err => {
+//		//console.log(err);
+//	})
 });
 
 //router.get('/', function(req, res){

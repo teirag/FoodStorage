@@ -25,11 +25,11 @@
               id="add_recipe"
               method="post"
               url="/api/recipe/add_new_recipe"
-              body="{ 'name': {{rec_name}}, 'ingredients': {{ingredArray}}, 'instructions': {{rec_instruct}}}"
+              body="{{new_recipe}}"
               handle-as="json"
               content-type="application/x-www-form-urlencoded"
               on-response="updateUser"></iron-ajax>
-            <h1>{{user.user.username}}'s Recipes</h1>
+            <h1>{{username}}'s Recipes</h1>
             <div class="breakLine" on-tap="showAddRecipe">
 							<iron-label>
 								<iron-icon icon="icons:add-circle-outline"></iron-icon>
@@ -122,7 +122,7 @@
 						//console.log(my_object);
 						//push object into array
 						this.ingredArray.push(my_object);
-						//console.log(this.ingredArray);
+//						console.log(this.ingredArray);
 						this.$.store.value = "";
 					}
 				},
@@ -132,7 +132,7 @@
 					//console.log(rec_name);
 					//console.log(ingredArray);
 					//console.log(rec_instruct);
-					//console.log(new_recipe);
+					console.log(this.new_recipe);
 					this.$.add_recipe.generateRequest();
 				},
 				

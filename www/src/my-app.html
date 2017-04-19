@@ -135,7 +135,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 						<my-storage name="storage" username="{{user.user.username}}" storageunits="{{user.storageUnits}}" user="{{user}}"></my-storage>
 						<my-family name="family"></my-family>
 						<my-budget name="budget"></my-budget>
-						<my-recipes name="recipes" recipes="{{user.recipes}}"></my-recipes>
+						<my-recipes name="recipes" username="{{user.user.username}}" recipes="{{user.recipes}}"></my-recipes>
           <my-view404 name="view404"></my-view404>
         </iron-pages>
       </app-header-layout>
