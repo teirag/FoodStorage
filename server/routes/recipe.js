@@ -5,13 +5,14 @@ const router = express.Router();
 
 router.post('/add_new_recipe', function(req, res){
 	console.log("router hi boo");
+	console.log("body " + req.body.name + " " + req.body.ingredients + " " + req.body.instructions);
 	recipe.add_new_recipe(req.user[0].user.username, req.body)
 		.then(data => {
-			console.log(data);
+			//console.log(data);
 			res.sendStatus(200);
 		})
 	.catch(err => {
-		console.log(err);
+		//console.log(err);
 	})
 });
 

@@ -29,7 +29,7 @@ var email               = require('./controllers/email');
 
 
 //mails specified email every minute
-cron.schedule('5 * * * * *', function(){
+cron.schedule('* 50 * * * *', function(){
     
     var d = new Date(); //today's date
 		var maxDistance = 30;
