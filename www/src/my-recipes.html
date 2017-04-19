@@ -28,7 +28,7 @@
               body="{{new_recipe}}"
               handle-as="json"
               content-type="application/x-www-form-urlencoded"
-              last-response="{{response}}"></iron-ajax>
+              on-response="updateUser"></iron-ajax>
             <h1>{{username}}'s Recipes</h1>
             <div class="breakLine" on-tap="showAddRecipe">
 							<iron-label>
@@ -38,7 +38,7 @@
 						</div>
             <div class="breakLine" hidden$="{{hide}}">
                 <label>Recipe Name</label>
-                <input type="text" name="rec_name" value"{{rec_name::change}}">
+                <input type="text" name="rec_name" value="{{rec_name::change}}">
                   <br>
                 <label>Ingredient</label>
                 <input id="store" type="text" name="" value="">
@@ -53,7 +53,7 @@
 					</div>
 					<template is="dom-repeat" items="{{recipes}}" as="recipe">
 					<div class="card">
-						<recipe-outline recipe="{{recipe}}"></recipe-outline>
+						<recipe-outline user="{{user}}" recipe="{{recipe}}"></recipe-outline>
 					</div>
 					</template>
         </div>
@@ -71,6 +71,10 @@
 					hide: {
             type: Boolean,
             value: true
+					},
+					user: {
+						type: Object,
+						notify: true
 					},
 					ingredArray: {
 						type: Array,
@@ -142,6 +146,10 @@
 			 showAddRecipe: function(){
 					this.hide = !this.hide;  
 				},
+				
+				updateUser: function(request){
+					this.user = request.detail.response[0];
+			}
 				
 				
 //
