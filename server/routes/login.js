@@ -104,20 +104,10 @@ router.post('/login', passport.authenticate('login'), function(req, res) {
 router.post('/register', function(req, res){
 	login.addPerson(req.body)
 		.then(data => {
-		login.findPerson(req.body.username, req.body.password)
-        .then(dbResult => {
-			if(dbResult.length > 0){
-					if(req.body.password === dbResult[0].user.password){
-						var user = dbResult[0].user;
-							req.logIn(user, function(err) {
-								return res.send(dbResult[0]);
-							});
-					}
-//			}
-//			else{
-//					return done(null, {  message: 'Your username or password is incorrect! Please try again or click "Register Now" at the bottom of the page.', _id: 1});
-			}
-    });
+				passport.authenticate('login')(req, res, function(err){
+					 var user = req.user
+    			res.status(200).send(user);
+				});
 	});
 });
 

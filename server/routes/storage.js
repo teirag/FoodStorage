@@ -3,6 +3,18 @@ const express = require('express');
 const storage = require('../controllers/storage');
 const router = express.Router();
 
+router.post('/add_storage_item', function(req, res){
+//	console.log(req.body);
+	storage.add_storage_unit(req.user[0].user.username, req.user[0].user.password, req.body)
+			.then(data => {
+			console.log(data);
+				res.sendStatus(200);
+			})
+			.catch(err => {
+			console.log(err);
+			});
+});
+
 router.post('/add_storage_unit', function(req, res){
 //	console.log(req.body);
 	storage.add_storage_unit(req.user[0].user.username, req.user[0].user.password, req.body.storage_unit)
